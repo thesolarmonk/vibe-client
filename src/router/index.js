@@ -33,7 +33,8 @@ const routes = [
     path: '/profile',
     name: 'profile',
     component: Profile
-  }
+  },
+  { path: '*', redirect: '/' }
 ];
 
 const router = new VueRouter({
