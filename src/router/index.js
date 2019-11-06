@@ -1,6 +1,7 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
-// import store from '../store/index.js';
+import store from '../store/index.js';
+import { setCookie, getCookie } from '../js/helper.js';
 
 import Login from '../views/Login.vue';
 import Feed from '../views/Feed.vue';
@@ -12,7 +13,17 @@ const routes = [
   {
     path: '/',
     name: 'login',
-    component: Login
+    component: Login,
+    beforeEnter: (to, from, next) => {
+      var vibe_auth_cookie = getCookie('vibe_auth');
+
+      if (vibe_auth_cookie) {
+        store.commit('login', vibe_auth_cookie);
+        next('/feed');
+      }
+
+      next();
+    }
   },
   {
     path: '/feed',
@@ -22,10 +33,14 @@ const routes = [
       if (to.hash) {
         let hash = to.hash;
         let stringEnd = hash.indexOf('&');
-        let token = hash.substring(14, stringEnd);
-        console.warn(token);
-      }
+        let access_token = hash.substring(14, stringEnd);
 
+        store.commit('login', access_token);
+
+        setCookie('vibe_auth', access_token, 0.041666667);
+
+        to.hash = '';
+      }
       next();
     }
   },
