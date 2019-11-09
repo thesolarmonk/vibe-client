@@ -1,7 +1,18 @@
-<template></template>
+<template>
+  <div>
+    <button
+      @click="play({
+        track_uri: 'spotify:track:314ZkcV7oLWG8yWE7LABvH',
+        player_id: getPlayerId,
+        access_token: getAccessToken
+      })"
+    >Play / Pause</button>
+  </div>
+</template>
 
 <script>
 import { mapGetters } from "vuex";
+import { mapActions } from "vuex";
 
 export default {
   name: "player",
@@ -65,24 +76,7 @@ export default {
     ...mapGetters(["getAccessToken", "getPlayerId"])
   },
   methods: {
-    play: ({ spotify_uri, id, access_token }) => {
-      fetch(`https://api.spotify.com/v1/me/player/play?device_id=${id}`, {
-        method: "PUT",
-        body: JSON.stringify({
-          uris: [spotify_uri]
-        }),
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${access_token}`
-        }
-      })
-        .then(response => {
-          console.log(response);
-        })
-        .catch(err => {
-          console.log(err);
-        });
-    }
+    ...mapActions(["play", "pause"])
   }
 };
 </script>
