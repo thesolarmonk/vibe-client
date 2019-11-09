@@ -1,13 +1,15 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
-// import { stat } from 'fs';
 
 Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
     authenticated: false,
-    access_token: ''
+    access_token: '',
+    player: null,
+    player_id: null,
+    playing: false
   },
   getters: {
     isAuthenticated: state => {
@@ -15,6 +17,9 @@ export default new Vuex.Store({
     },
     getAccessToken: state => {
       return state.access_token;
+    },
+    getPlayerId: state => {
+      return state.player_id;
     }
   },
   mutations: {
