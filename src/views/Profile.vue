@@ -1,10 +1,15 @@
 <template>
-  <div></div>
+  <div>
+    <profile></profile>
+  </div>
 </template>
 
 <script>
+import Profile from "../components/Profile.vue";
 export default {
   name: "",
-  components: {}
+  components: {
+    Profile
+  }
 };
 </script>
