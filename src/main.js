@@ -7,6 +7,7 @@ import 'material-design-icons-iconfont/dist/material-design-icons.css';
 import vuetify from '@/plugins/vuetify'; // path to vuetify export
 
 Vue.config.productionTip = false;
+Vue.use(vuetify);
 
 new Vue({
     router,
