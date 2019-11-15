@@ -1,8 +1,6 @@
 import { mount } from '@vue/test-utils';
 import Login from '../views/Login.vue';
 
-// Here are some Jasmine 2.0 tests, though you can
-// use any test runner / assertion library combo you prefer
 describe('Login', () => {
     // Evaluate the results of functions in
     // the raw component options
@@ -12,7 +10,7 @@ describe('Login', () => {
         expect(defaultData.spotifyAuthUrl).toBeDefined();
     });
 
-    // Inspect the component instance on mount
+    // Check if buttons are responsive
     it('Login button clicks are recognized', () => {
         const mockMethods = {
             login: jest.fn()
@@ -22,7 +20,7 @@ describe('Login', () => {
         expect(mockMethods.login).toHaveBeenCalled();
     });
 
-    // Mount an instance and inspect the render output
+    // Inspect the methods defined in component
     it('register correct methods', () => {
         expect(typeof Login.methods.login).toBe('function');
     });

@@ -37,7 +37,7 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
 ## Directory Structure
 
 ```
-.
+src
 ├── App.vue
 ├── assets
 │   └── logo.png
@@ -62,4 +62,11 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
     ├── Feed.vue
     ├── Login.vue
     └── Profile.vue
+```
+
+## CSS Framework
+
+```
+Bulma: https://bulma.io/
+Vuetify: https://vuetifyjs.com/en/
 ```
