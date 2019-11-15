@@ -1,7 +1,7 @@
 <template>
   <div>
     <v-app id="inspire">
-      <v-card>
+      <v-card v-bind:style="cardObject">
         <v-navigation-drawer
           v-model="sideNav"
           :mini-variant.sync="mini"
@@ -99,11 +99,14 @@ export default {
     return {
       drawer: true,
       items: [
-        { title: "Home", icon: "mdi-home-city" },
-        { title: "My Account", icon: "mdi-account" },
-        { title: "Users", icon: "mdi-account-group-outline" }
+        { title: "Feed", icon: "mdi-home-city" },
+        { title: "Profile", icon: "mdi-account" },
+        { title: "Search", icon: "mdi-account-group-outline" }
       ],
       mini: true,
+      cardObject: {
+        height: "100%"
+      },
       profileImageObject: {
         width: "50px",
         float: "left"
@@ -111,7 +114,7 @@ export default {
       userInfoObject: {
         width: "100%",
         marginTop: "75px",
-        marginLeft: "20px",
+        marginLeft: "120px",
         height: "100px"
       },
       userNameObject: {
