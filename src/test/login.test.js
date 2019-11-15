@@ -1,6 +1,4 @@
-import Profile from '../components/Profile.vue';
 import { mount } from '@vue/test-utils';
-import sinon from 'sinon';
 import Login from '../views/Login.vue';
 
 // Here are some Jasmine 2.0 tests, though you can
