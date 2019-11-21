@@ -1,17 +1,45 @@
 <template>
-  <div>
+  <div class="player">
+    <p
+      v-if="getCurrentTrack.name != null"
+      class="player--info"
+    >{{ getCurrentTrack.name }} • {{ getCurrentTrack.artist }}</p>
     <button
+      class="player--button"
+      @click="skip({
+        player_id: getPlayerId,
+        access_token: getAccessToken,
+        skip: 'previous'
+      })"
+    >Previous</button>
+    <button
+      class="player--button"
       @click="play({
-        track_uri: 'spotify:track:314ZkcV7oLWG8yWE7LABvH',
         player_id: getPlayerId,
         access_token: getAccessToken
       })"
-    >Play / Pause</button>
+    >Play</button>
+    <button
+      class="player--button"
+      @click="pause({
+        player_id: getPlayerId,
+        access_token: getAccessToken
+      })"
+    >Pause</button>
+    <button
+      class="player--button"
+      @click="skip({
+        player_id: getPlayerId,
+        access_token: getAccessToken,
+        skip: 'next'
+      })"
+    >Next</button>
   </div>
 </template>
 
 <script>
 import { mapGetters } from "vuex";
+import { mapMutations } from "vuex";
 import { mapActions } from "vuex";
 
 export default {
@@ -48,7 +76,17 @@ export default {
 
       // Playback status updates
       this.$store.state.player.addListener("player_state_changed", state => {
-        console.log(state);
+        // console.log(state);
+        // console.log(state.track_window.current_track);
+        if (state.paused) {
+          this.setPause();
+        } else {
+          this.setPlay({
+            name: state.track_window.current_track.name,
+            id: state.track_window.current_track.id,
+            artist: state.track_window.current_track.artists[0].name
+          });
+        }
       });
 
       // Ready
@@ -73,13 +111,24 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(["getAccessToken", "getPlayerId"])
+    ...mapGetters(["getAccessToken", "getPlayerId", "getCurrentTrack"])
   },
   methods: {
-    ...mapActions(["play", "pause"])
+    ...mapActions(["play", "pause", "skip"]),
+    ...mapMutations({
+      setPlay: "play",
+      setPause: "pause"
+    })
   }
 };
 </script>
 
 <style>
+.player {
+  background-color: black;
+}
+
+.player--info {
+  color: white;
+}
 </style>
