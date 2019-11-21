@@ -122,6 +122,47 @@ export default new Vuex.Store({
         }
       })
         .then(response => {
+          if (typeof payload.current_track !== 'undefined') {
+            payload.current_track.index = payload.feed_index;
+          }
+          commit('play', payload.current_track);
+          console.log(response);
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    },
+    pause: ({ commit }, payload) => {
+      let url = `https://api.spotify.com/v1/me/player/pause?device_id=${payload.player_id}`;
+
+      fetch(url, {
+        method: 'PUT',
+        body: null,
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${payload.access_token}`
+        }
+      })
+        .then(response => {
+          commit('pause');
+          console.log(response);
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    },
+    skip: ({ commit }, payload) => {
+      let url = `https://api.spotify.com/v1/me/player/${payload.skip}?device_id=${payload.player_id}`;
+
+      fetch(url, {
+        method: 'POST',
+        body: null,
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${payload.access_token}`
+        }
+      })
+        .then(response => {
           commit('play');
           console.log(response);
         })
