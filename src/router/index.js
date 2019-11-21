@@ -6,6 +6,7 @@ import { setCookie, getCookie } from '../js/helper.js';
 import Login from '../views/Login.vue';
 import Feed from '../views/Feed.vue';
 import Profile from '../views/Profile.vue';
+import Add from '../views/Add.vue';
 
 Vue.use(VueRouter);
 
@@ -52,6 +53,11 @@ const routes = [
     path: '/profile',
     name: 'profile',
     component: Profile
+  },
+  {
+    path: '/add',
+    name: 'add',
+    component: Add
   },
   { path: '*', redirect: '/' }
 ];
