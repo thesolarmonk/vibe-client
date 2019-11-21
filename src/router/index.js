@@ -18,7 +18,11 @@ const routes = [
       var vibe_auth_cookie = getCookie('vibe_auth');
 
       if (vibe_auth_cookie) {
-        store.commit('login', vibe_auth_cookie);
+        store.dispatch('login', {
+          access_token: vibe_auth_cookie,
+          user_id: '',
+          user_name: ''
+        });
         next('/feed');
       }
 
