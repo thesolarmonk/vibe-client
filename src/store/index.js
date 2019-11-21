@@ -85,13 +85,31 @@ export default new Vuex.Store({
     }
   },
   actions: {
+    login: ({ commit }, payload) => {
+      fetch('https://api.spotify.com/v1/me', {
+        method: 'GET',
+        headers: {
+          'content-type': 'application/json',
+          authorization: `Bearer ${payload.access_token}`
+        }
+      })
+        .then(response => response.json())
+        .then(data => {
+          payload.user_id = data.id;
+          payload.user_name = data.display_name;
+          commit('login', payload);
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    },
     play: ({ commit }, payload) => {
       let url = `https://api.spotify.com/v1/me/player/play?device_id=${payload.player_id}`;
       let body = null;
 
-      if (payload.track_uri != null) {
+      if (payload.track_uris) {
         body = JSON.stringify({
-          uris: [payload.track_uri]
+          uris: payload.track_uris
         });
       }
 
