@@ -8,9 +8,19 @@ export default new Vuex.Store({
     authenticated: false,
     access_token: '',
 
+    user_id: '',
+    user_name: '',
+
     player: null,
     player_id: null,
-    playing: false
+    playing: false,
+
+    current_track_name: '',
+    current_track_id: '',
+    current_track_artist: '',
+
+    current_feed_index: null,
+    current_feed_length: 0
   },
   getters: {
     isAuthenticated: state => {
