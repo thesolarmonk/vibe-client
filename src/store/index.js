@@ -29,27 +29,59 @@ export default new Vuex.Store({
     getAccessToken: state => {
       return state.access_token;
     },
+    getUserId: state => {
+      return state.user_id;
+    },
+    getUserName: state => {
+      return state.user_name;
+    },
     getPlayerId: state => {
       return state.player_id;
     },
     isPlaying: state => {
       return state.playing;
+    },
+    getCurrentTrack: state => {
+      return {
+        name: state.current_track_name,
+        id: state.current_track_id,
+        artist: state.current_track_artist
+      };
+    },
+    getCurrentFeedIndex: state => {
+      return state.current_feed_index;
     }
   },
   mutations: {
-    login(state, access_token) {
+    login(state, payload) {
       state.authenticated = true;
-      state.access_token = access_token;
+      state.access_token = payload.access_token;
+      state.user_id = payload.user_id;
+      state.user_name = payload.user_name;
     },
     logout(state) {
       state.authenticated = false;
       state.access_token = '';
     },
-    play(state) {
+    play(state, payload) {
       state.playing = true;
+      if (payload.current_track) {
+        state.current_track_id = payload.id;
+        state.current_track_name = payload.name;
+        state.current_track_artist = payload.artist;
+        state.current_feed_index = payload.feed_index;
+      }
     },
     pause(state) {
       state.playing = false;
+    },
+    setCurrentTrack(state, payload) {
+      state.current_track_name = payload.name;
+      state.current_track_id = payload.id;
+      state.current_track_artist = payload.artist;
+    },
+    setCurrentFeedLength(state, length) {
+      state.current_feed_length = length;
     }
   },
   actions: {
