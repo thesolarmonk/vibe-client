@@ -44,7 +44,7 @@ const routes = [
 
         setCookie('vibe_auth', access_token, 0.041666667);
 
-        to.hash = '';
+        next('/feed');
       }
       next();
     }
@@ -64,7 +64,7 @@ const routes = [
 
 const router = new VueRouter({
   mode: 'history',
-  base: process.env.BASE_URL,
+  base: process.env.VUE_APP_HOST,
   routes
 });
 

@@ -2,7 +2,11 @@
   <div>
     <h1 class="page-title--h1">Search</h1>
     <form class="search-bar">
-      <input type="text" class="search-bar--input" placeholder="Search for songs and friends" />
+      <input
+        type="text"
+        class="search-bar--input"
+        placeholder="Search for songs and friends"
+      />
       <button class="search-bar--submit">Search</button>
     </form>
     <div v-if="showSearch" class="recently-played">
@@ -19,12 +23,12 @@
 </template>
 
 <script>
-import TrackItem from "../components/Track.vue";
+import TrackItem from '../components/Track.vue';
 
-import { mapGetters } from "vuex";
+import { mapGetters } from 'vuex';
 
 export default {
-  name: "search",
+  name: 'search',
   components: {
     TrackItem
   },
@@ -35,19 +39,19 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(["getAccessToken", "getPlayerId"]),
+    ...mapGetters(['getAccessToken', 'getPlayerId']),
     showSearch() {
       return this.search_results.length != 0;
     }
   },
   mounted() {
     let recently_played_limit = 10;
-    let url = `https://api.spotify.com/v1/me/player/recently-played?limit=${recently_played_limit}`;
+    let url = `${process.env.VUE_APP_HOST}/v1/me/player/recently-played?limit=${recently_played_limit}`;
 
     fetch(url, {
-      method: "GET",
+      method: 'GET',
       headers: {
-        "content-type": "application/json",
+        'content-type': 'application/json',
         authorization: `Bearer ${this.getAccessToken}`
       }
     })
@@ -59,7 +63,7 @@ export default {
   },
   methods: {
     postTrack(track_id) {
-      // let url = `https://vibe-web-api.herokuapp.com/api/users/${getUserId}`;
+      // let url = `${process.env.VUE_APP_HOST}/api/users/${getUserId}`;
       let data = {
         user_id: this.getUserId,
         user_name: this.getUserName,
@@ -67,7 +71,7 @@ export default {
         track_id: track_id
       };
 
-      console.log("Posting track: " + JSON.stringify(data));
+      console.log('Posting track: ' + JSON.stringify(data));
 
       // fetch(url, {
       //   method: "POST",
@@ -85,5 +89,4 @@ export default {
 };
 </script>
 
-<style>
-</style>
+<style></style>

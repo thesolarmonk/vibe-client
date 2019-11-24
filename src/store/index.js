@@ -86,7 +86,7 @@ export default new Vuex.Store({
   },
   actions: {
     login: ({ commit }, payload) => {
-      fetch('https://api.spotify.com/v1/me', {
+      fetch(`${process.env.VUE_APP_HOST}/v1/me`, {
         method: 'GET',
         headers: {
           'content-type': 'application/json',
@@ -104,7 +104,7 @@ export default new Vuex.Store({
         });
     },
     play: ({ commit }, payload) => {
-      let url = `https://api.spotify.com/v1/me/player/play?device_id=${payload.player_id}`;
+      let url = `${process.env.VUE_APP_HOST}/v1/me/player/play?device_id=${payload.player_id}`;
       let body = null;
 
       if (payload.track_uris) {
@@ -133,7 +133,7 @@ export default new Vuex.Store({
         });
     },
     pause: ({ commit }, payload) => {
-      let url = `https://api.spotify.com/v1/me/player/pause?device_id=${payload.player_id}`;
+      let url = `${process.env.VUE_APP_HOST}/v1/me/player/pause?device_id=${payload.player_id}`;
 
       fetch(url, {
         method: 'PUT',
@@ -152,7 +152,7 @@ export default new Vuex.Store({
         });
     },
     skip: ({ commit }, payload) => {
-      let url = `https://api.spotify.com/v1/me/player/${payload.skip}?device_id=${payload.player_id}`;
+      let url = `${process.env.VUE_APP_HOST}/v1/me/player/${payload.skip}?device_id=${payload.player_id}`;
 
       fetch(url, {
         method: 'POST',
