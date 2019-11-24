@@ -17,14 +17,14 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
-import { mapMutations } from 'vuex';
-import { mapActions } from 'vuex';
+import { mapGetters } from "vuex";
+import { mapMutations } from "vuex";
+import { mapActions } from "vuex";
 
-import Post from '../components/Post.vue';
+import Post from "../components/Post.vue";
 
 export default {
-  name: '',
+  name: "",
   components: {
     Post
   },
@@ -33,8 +33,8 @@ export default {
       feed: [
         {
           playing: false,
-          user_id: 'tanujlalwani',
-          user_name: 'Tanuj Lalwani',
+          user_id: "tanujlalwani",
+          user_name: "Tanuj Lalwani",
           date_posted: 1573701139111,
           track: {
             sentiment_score: 0.8,
@@ -42,27 +42,27 @@ export default {
               images: [
                 {
                   url:
-                    'https://i.scdn.co/image/ab67616d00001e022fc97d8b44d992db41922534'
+                    "https://i.scdn.co/image/ab67616d00001e022fc97d8b44d992db41922534"
                 },
                 {
                   url:
-                    'https://i.scdn.co/image/ab67616d00001e022fc97d8b44d992db41922534'
+                    "https://i.scdn.co/image/ab67616d00001e022fc97d8b44d992db41922534"
                 },
                 {
                   url:
-                    'https://i.scdn.co/image/ab67616d00001e022fc97d8b44d992db41922534'
+                    "https://i.scdn.co/image/ab67616d00001e022fc97d8b44d992db41922534"
                 }
               ]
             },
-            name: 'placeholder',
-            artist: 'Hand Habits',
-            id: '6ABQcgTtAPCUyMkVwdRNJo'
+            name: "placeholder",
+            artist: "Hand Habits",
+            id: "6ABQcgTtAPCUyMkVwdRNJo"
           }
         },
         {
           playing: false,
-          user_id: 'nikhilbhatia',
-          user_name: 'Nikhil Bhatia',
+          user_id: "nikhilbhatia",
+          user_name: "Nikhil Bhatia",
           date_posted: 1573708975208,
           track: {
             sentiment_score: 0.5,
@@ -70,32 +70,32 @@ export default {
               images: [
                 {
                   url:
-                    'https://i.scdn.co/image/ab67616d00001e02521689e65df1695ceca59795'
+                    "https://i.scdn.co/image/ab67616d00001e02521689e65df1695ceca59795"
                 },
                 {
                   url:
-                    'https://i.scdn.co/image/ab67616d00001e02521689e65df1695ceca59795'
+                    "https://i.scdn.co/image/ab67616d00001e02521689e65df1695ceca59795"
                 },
                 {
                   url:
-                    'https://i.scdn.co/image/ab67616d00001e02521689e65df1695ceca59795'
+                    "https://i.scdn.co/image/ab67616d00001e02521689e65df1695ceca59795"
                 }
               ]
             },
-            name: 'Habits',
-            artist: 'Shallou',
-            id: '1OCrb7dmygmJiDcjdFAPR8'
+            name: "Habits",
+            artist: "Shallou",
+            id: "1OCrb7dmygmJiDcjdFAPR8"
           }
         }
       ]
     };
   },
   computed: {
-    ...mapGetters(['getAccessToken', 'getPlayerId', 'getCurrentFeedIndex'])
+    ...mapGetters(["getAccessToken", "getPlayerId", "getCurrentFeedIndex"])
   },
   methods: {
-    ...mapActions(['play']),
-    ...mapMutations(['setCurrentFeedIndex']),
+    ...mapActions(["play"]),
+    ...mapMutations(["setCurrentFeedIndex"]),
     isCurrentTrack(index) {
       return index == this.getCurrentFeedIndex;
     },
@@ -149,7 +149,7 @@ export default {
     //   0
     // );
     // console.log(this.feed);
-    // let url = `${process.env.VUE_APP_HOST}/api/users/${getUserId}/getNewsFeed`;
+    // let url = `${process.env.VUE_APP_VIBE_API_URL}/api/users/${getUserId}/getNewsFeed`;
     // fetch(url, {
     //   method: "GET",
     //   headers: {
