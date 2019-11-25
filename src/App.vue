@@ -6,14 +6,14 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
+import { mapGetters } from 'vuex';
 
-import Player from "./components/Player.vue";
+import Player from './components/Player.vue';
 
 export default {
-  name: "app",
+  name: 'app',
   computed: {
-    ...mapGetters(["isAuthenticated"])
+    ...mapGetters(['isAuthenticated'])
   },
   components: {
     Player
@@ -21,7 +21,34 @@ export default {
 };
 </script>
 
-<style>
+<style lang="scss">
+@import url('https://rsms.me/inter/inter.css');
+html {
+  font-family: 'Inter', sans-serif;
+}
+@supports (font-variation-settings: normal) {
+  html {
+    font-family: 'Inter var', sans-serif;
+  }
+}
+
+@import '~bulma/sass/utilities/_all';
+
+// Set your colors
+$scheme-main: #000;
+$text: #fff;
+$text-strong: #fff;
+$weight-semibold: 800;
+
+$family-primary: 'Inter', sans-serif;
+$family-sans-serif: $family-primary;
+
+$box-radius: 15px;
+
+// Import Bulma and Buefy styles
+@import '~bulma';
+@import '~buefy/src/scss/buefy';
+
 body {
   width: 100vw;
   height: 100vh;
