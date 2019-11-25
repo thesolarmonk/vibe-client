@@ -44,14 +44,33 @@ export default {
 
 <style>
 .post--list {
-  margin: 7% auto 5% 10%;
+  margin: 6% auto 5% 10%;
 
-  width: 28%;
+  width: 29%;
 }
 
 .feed {
-  /* background: #D8D8D8; */
   background-image: linear-gradient(0deg, #ffe600 0%, #000000 50%);
-  /* border: 1px solid #979797; */
+}
+
+.feed::-webkit-scrollbar {
+  width: 6px;
+}
+
+.feed::-webkit-scrollbar-track {
+  background-color: #000000;
+}
+
+.feed::-webkit-scrollbar-thumb {
+  background-color: #ffffff;
+  border-radius: 15px;
+}
+
+.feed::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(#ffd400, #c2ff00, #00ffde, #6ae2cb, #00ccff);
+}
+
+.feed::-webkit-scrollbar-corner {
+  background-color: #000000;
 }
 </style>

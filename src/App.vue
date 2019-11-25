@@ -34,6 +34,11 @@ html {
   }
 }
 
+@font-face {
+  font-family: "Marvin Visions";
+  src: url("./assets/fonts/marvin-visions.woff2") format("woff2");
+}
+
 @import "~bulma/sass/utilities/_all";
 
 // Set your colors

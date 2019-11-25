@@ -34,11 +34,6 @@ export default {
 </script>
 
 <style>
-@font-face {
-  font-family: "Marvin Visions";
-  src: url("../assets/fonts/marvin-visions.woff2") format("woff2");
-}
-
 .login {
   display: flex;
   flex-flow: column nowrap;

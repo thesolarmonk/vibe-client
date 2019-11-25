@@ -35,9 +35,9 @@
 
       <div class="navbar-middle">
         <div v-if="currentTrack.name != null" class="player--info content">
-          {{ currentTrack.name }}
+          <strong>{{ currentTrack.name }}</strong>
           <br />
-          {{ currentTrack.artist }}
+          <span class="player--info-artist">{{ currentTrack.artist }}</span>
         </div>
       </div>
 
@@ -68,7 +68,8 @@
 
         <div class="navbar-brand">
           <router-link to="/feed" class="navbar-item">
-            <img src="../assets/vibe-logo-bw.png" width="80" />
+            <p class="player--logo">VIBE</p>
+            <!-- <img src="../assets/vibe-logo-bw.png" width="80" /> -->
           </router-link>
         </div>
       </div>
@@ -77,15 +78,15 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
-import { mapMutations } from 'vuex';
-import { mapActions } from 'vuex';
+import { mapGetters } from "vuex";
+import { mapMutations } from "vuex";
+import { mapActions } from "vuex";
 
 export default {
   mounted() {
     window.onSpotifyWebPlaybackSDKReady = () => {
       this.$store.state.player = new window.Spotify.Player({
-        name: 'Vibe',
+        name: "Vibe",
         getOAuthToken: cb => {
           cb(this.$store.state.access_token);
         },
@@ -94,26 +95,26 @@ export default {
 
       // Error handling
       this.$store.state.player.addListener(
-        'initialization_error',
+        "initialization_error",
         ({ message }) => {
           console.error(message);
         }
       );
       this.$store.state.player.addListener(
-        'authentication_error',
+        "authentication_error",
         ({ message }) => {
           console.error(message);
         }
       );
-      this.$store.state.player.addListener('account_error', ({ message }) => {
+      this.$store.state.player.addListener("account_error", ({ message }) => {
         console.error(message);
       });
-      this.$store.state.player.addListener('playback_error', ({ message }) => {
+      this.$store.state.player.addListener("playback_error", ({ message }) => {
         console.error(message);
       });
 
       // Playback status updates
-      this.$store.state.player.addListener('player_state_changed', state => {
+      this.$store.state.player.addListener("player_state_changed", state => {
         // console.log(state);
         // console.log(state.track_window.current_track);
         this.setCurrentFeedIndex(state.track_window.current_track.id);
@@ -124,47 +125,47 @@ export default {
 
           document
             .getElementById(state.track_window.current_track.id)
-            .scrollIntoView({ behavior: 'smooth', block: 'center' });
+            .scrollIntoView({ behavior: "smooth", block: "center" });
         }
       });
 
       // Ready
-      this.$store.state.player.addListener('ready', ({ device_id }) => {
-        console.log('Ready with Device ID', device_id);
+      this.$store.state.player.addListener("ready", ({ device_id }) => {
+        console.log("Ready with Device ID", device_id);
         this.$store.state.player_id = device_id;
       });
 
       // Not Ready
-      this.$store.state.player.addListener('not_ready', ({ device_id }) => {
-        console.log('Device ID has gone offline', device_id);
+      this.$store.state.player.addListener("not_ready", ({ device_id }) => {
+        console.log("Device ID has gone offline", device_id);
       });
 
       // Connect to the player!
       this.$store.state.player.connect().then(success => {
         if (success) {
           console.log(
-            'The Web Playback SDK successfully connected to Spotify!'
+            "The Web Playback SDK successfully connected to Spotify!"
           );
         }
       });
     };
 
-    let spotifyWebplaybackSDK = document.createElement('script');
+    let spotifyWebplaybackSDK = document.createElement("script");
     spotifyWebplaybackSDK.setAttribute(
-      'src',
-      'https://sdk.scdn.co/spotify-player.js'
+      "src",
+      "https://sdk.scdn.co/spotify-player.js"
     );
     document.head.appendChild(spotifyWebplaybackSDK);
   },
   computed: {
-    ...mapGetters(['currentTrack', 'isPlaying'])
+    ...mapGetters(["currentTrack", "isPlaying"])
   },
   methods: {
-    ...mapActions(['play', 'pause', 'skip']),
+    ...mapActions(["play", "pause", "skip"]),
     ...mapMutations({
-      setPlay: 'play',
-      setPause: 'pause',
-      setCurrentFeedIndex: 'setCurrentFeedIndex'
+      setPlay: "play",
+      setPause: "pause",
+      setCurrentFeedIndex: "setCurrentFeedIndex"
     })
   }
 };
@@ -175,6 +176,8 @@ export default {
   background-color: black;
   .player--info {
     color: white;
+    padding-top: 10px;
+
     .player--info-title {
       font-weight: 800;
     }
@@ -182,6 +185,48 @@ export default {
     .player--info-title {
       font-weight: 400;
     }
+
+    .player--info-artist {
+      color: rgb(121, 121, 121);
+    }
+  }
+}
+
+.player--logo {
+  font-family: "Marvin Visions", sans-serif;
+  color: #fff;
+  font-size: 35px;
+  letter-spacing: 1px;
+
+  cursor: pointer;
+}
+
+.player--logo:hover {
+  background: linear-gradient(
+    100deg,
+    #ffd400,
+    #c2ff00,
+    #00ffde,
+    #6ae2cb,
+    #00ccff,
+    #00ffde,
+    #c2ff00,
+    #ffd400
+  );
+
+  animation: rainbow 1s linear infinite;
+
+  background-size: 200% auto;
+
+  background-clip: text;
+  color: transparent;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+@keyframes rainbow {
+  to {
+    background-position: 200% center;
   }
 }
 
