@@ -1,22 +1,41 @@
 <template>
   <div id="app" class="app">
-    <router-view class="app--view"></router-view>
+    <keep-alive>
+      <router-view class="app--view"></router-view>
+    </keep-alive>
     <player v-if="isAuthenticated" class="app--nav"></player>
   </div>
 </template>
 
 <script>
 import { mapGetters } from "vuex";
+import { mapActions } from "vuex";
 
 import Player from "./components/Player.vue";
 
 export default {
   name: "app",
   computed: {
-    ...mapGetters(["isAuthenticated"])
+    ...mapGetters(["isAuthenticated", "isPlaying"])
+  },
+  methods: {
+    ...mapActions(["play", "pause"])
   },
   components: {
     Player
+  },
+  mounted() {
+    var that = this;
+    window.addEventListener("keydown", function(event) {
+      if (event.keyCode == 32) {
+        event.preventDefault();
+        if (that.isPlaying) {
+          that.pause();
+        } else {
+          that.play({ feed_index: null });
+        }
+      }
+    });
   }
 };
 </script>
