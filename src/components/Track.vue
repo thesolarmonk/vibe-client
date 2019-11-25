@@ -16,7 +16,7 @@
             >
               <i class="fas fa-3x fa-pause-circle"></i>
             </span>
-            <span v-else class="icon is-large" @click="play({ feed_index: index })">
+            <span v-else class="icon is-large" @click="playFromFeed()">
               <i class="fas fa-3x fa-play-circle"></i>
             </span>
           </a>
@@ -69,6 +69,13 @@ export default {
     postTrack(track_id) {
       if (!this.isFeed) {
         this.$parent.postTrack(track_id);
+      }
+    },
+    playFromFeed() {
+      if (this.index == this.currentFeedIndex) {
+        this.play({ feed_index: null });
+      } else {
+        this.play({ feed_index: this.index });
       }
     }
   }

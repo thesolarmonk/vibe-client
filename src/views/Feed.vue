@@ -1,5 +1,5 @@
 <template>
-  <div class="feed">
+  <div class="feed" :class="currentSentiment">
     <div class="post--list">
       <post
         v-for="(post, index) in feed"
@@ -24,7 +24,7 @@ export default {
     Post
   },
   computed: {
-    ...mapGetters(["feed", "currentFeedIndex"])
+    ...mapGetters(["feed", "currentFeedIndex", "currentSentiment"])
   },
   mounted() {
     // let url = `${process.env.VUE_APP_VIBE_API_URL}/api/users/${getUserId}/getNewsFeed`;
@@ -50,7 +50,33 @@ export default {
 }
 
 .feed {
-  background-image: linear-gradient(0deg, #ffe600 0%, #000000 50%);
+  /* background-image: linear-gradient(
+    to top,
+    rgba(0, 0, 0, 0) 0%,
+    rgba(0, 0, 0, 1) 70%
+  ); */
+
+  background-image: radial-gradient(
+    100% 80% at bottom,
+    transparent 0%,
+    #000 75%
+  );
+
+  background-color: #000;
+
+  transition: background-color 10000ms linear;
+}
+
+.none {
+  background-color: rgb(85, 85, 85);
+}
+
+.happy {
+  background-color: #ffe600;
+}
+
+.sad {
+  background-color: #00aeff;
 }
 
 .feed::-webkit-scrollbar {

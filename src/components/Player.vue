@@ -33,11 +33,11 @@
         </div>
       </div>
 
-      <div class="navbar-middle">
-        <div v-if="currentTrack.name != null" class="player--info content">
-          <strong>{{ currentTrack.name }}</strong>
+      <div class="navbar-middle" @click="showCurrent()">
+        <div v-if="currentTrack.name != null" class="player--info">
+          <strong>{{ currentTrackInfo }}</strong>
           <br />
-          <span class="player--info-artist">{{ currentTrack.artist }}</span>
+          <span class="player--info-user">Shared by {{ currentTrack.user_name }}</span>
         </div>
       </div>
 
@@ -123,9 +123,9 @@ export default {
         } else {
           this.setPlay();
 
-          document
-            .getElementById(state.track_window.current_track.id)
-            .scrollIntoView({ behavior: "smooth", block: "center" });
+          if (state.position < 1500) {
+            this.showCurrent();
+          }
         }
       });
 
@@ -158,7 +158,10 @@ export default {
     document.head.appendChild(spotifyWebplaybackSDK);
   },
   computed: {
-    ...mapGetters(["currentTrack", "isPlaying"])
+    ...mapGetters(["currentTrack", "isPlaying"]),
+    currentTrackInfo() {
+      return this.currentTrack.name + "\t‣\t" + this.currentTrack.artist;
+    }
   },
   methods: {
     ...mapActions(["play", "pause", "skip"]),
@@ -166,7 +169,12 @@ export default {
       setPlay: "play",
       setPause: "pause",
       setCurrentFeedIndex: "setCurrentFeedIndex"
-    })
+    }),
+    showCurrent() {
+      document
+        .getElementById(this.currentTrack.id)
+        .scrollIntoView({ behavior: "smooth", block: "center" });
+    }
   }
 };
 </script>
@@ -178,16 +186,10 @@ export default {
     color: white;
     padding-top: 10px;
 
-    .player--info-title {
-      font-weight: 800;
-    }
+    cursor: pointer;
 
-    .player--info-title {
-      font-weight: 400;
-    }
-
-    .player--info-artist {
-      color: rgb(121, 121, 121);
+    .player--info-user {
+      color: rgb(95, 95, 95);
     }
   }
 }
