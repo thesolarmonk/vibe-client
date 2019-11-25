@@ -14,17 +14,17 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
+import { mapGetters } from "vuex";
 
-import Post from '../components/Post.vue';
+import Post from "../components/Post.vue";
 
 export default {
-  name: '',
+  name: "",
   components: {
     Post
   },
   computed: {
-    ...mapGetters(['feed', 'currentFeedIndex'])
+    ...mapGetters(["feed", "currentFeedIndex"])
   },
   mounted() {
     // let url = `${process.env.VUE_APP_VIBE_API_URL}/api/users/${getUserId}/getNewsFeed`;

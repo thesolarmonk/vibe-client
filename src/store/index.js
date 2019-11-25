@@ -262,7 +262,6 @@ export default new Vuex.Store({
     },
     currentTrack: state => {
       if (state.current_feed_index != null) {
-        console.log(state.feed[state.current_feed_index]);
         return {
           name: state.feed[state.current_feed_index].track.name,
           id: state.feed[state.current_feed_index].track.id,
