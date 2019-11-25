@@ -241,8 +241,8 @@ export default new Vuex.Store({
         }
       }
     ],
-    current_feed_index: null,
-    current_feed_length: 2
+    current_feed_index: null
+    // current_feed_length: 2
   },
   getters: {
     isAuthenticated: state => {
@@ -262,11 +262,11 @@ export default new Vuex.Store({
     },
     currentTrack: state => {
       if (state.current_feed_index != null) {
-        console.log(state.feed[state.current_feed_index]);
         return {
           name: state.feed[state.current_feed_index].track.name,
           id: state.feed[state.current_feed_index].track.id,
-          artist: state.feed[state.current_feed_index].track.artist
+          artist: state.feed[state.current_feed_index].track.artist,
+          user_name: state.feed[state.current_feed_index].user_name
         };
       } else {
         return {};
@@ -277,6 +277,19 @@ export default new Vuex.Store({
     },
     accessToken: state => {
       return state.access_token;
+    },
+    currentSentiment: state => {
+      if (state.current_feed_index == null) {
+        return 'none';
+      }
+
+      let sentiment_score =
+        state.feed[state.current_feed_index].track.sentiment_score;
+      if (sentiment_score >= 0.5) {
+        return 'happy';
+      } else {
+        return 'sad';
+      }
     }
   },
   mutations: {

@@ -2,11 +2,7 @@
   <div class="card track">
     <div class="card-image">
       <figure class="image is-3by3">
-        <img
-          class="track--album-art"
-          :src="albumArtUrl"
-          alt="Placeholder image"
-        />
+        <img class="track--album-art" :src="albumArtUrl" alt="Placeholder image" />
       </figure>
     </div>
     <div class="card-content">
@@ -20,22 +16,22 @@
             >
               <i class="fas fa-3x fa-pause-circle"></i>
             </span>
-            <span
-              v-else
-              class="icon is-large"
-              @click="play({ feed_index: index })"
-            >
+            <span v-else class="icon is-large" @click="playFromFeed()">
               <i class="fas fa-3x fa-play-circle"></i>
             </span>
           </a>
           <a v-else class="button is-black track--post-new">
             <span class="icon is-large" @click="postTrack(trackId)">
-              <i class="fas fa-3x fa-plus-circle"></i>
+              <i class="fas fa-plus-circle" :class="{ 'fa-3x': isFeed, 'fa-2x': !isFeed}"></i>
             </span>
           </a>
         </div>
         <div class="media-content">
-          <p class="track--name title is-4" v-html="trackName"></p>
+          <p
+            class="track--name title is-2"
+            :class="{ 'is-4': isFeed, 'is-6': !isFeed, 'truncate-text': !isFeed}"
+            v-html="trackName"
+          ></p>
           <p class="track--artist subtitle is-6" v-html="trackArtist"></p>
         </div>
       </div>
@@ -44,13 +40,13 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex';
-import { mapGetters } from 'vuex';
+import { mapActions } from "vuex";
+import { mapGetters } from "vuex";
 
 export default {
-  props: ['track_data', 'isFeed', 'index'],
+  props: ["track_data", "isFeed", "index"],
   computed: {
-    ...mapGetters(['currentFeedIndex', 'isPlaying']),
+    ...mapGetters(["currentFeedIndex", "isPlaying"]),
     albumArtUrl() {
       return this.track_data.album.images[0].url;
     },
@@ -58,17 +54,28 @@ export default {
       return this.track_data.name;
     },
     trackArtist() {
-      return this.track_data.artist;
+      if (this.isFeed) {
+        return this.track_data.artist;
+      } else {
+        return this.track_data.artists[0].name;
+      }
     },
     trackId() {
       return this.track_data.id;
     }
   },
   methods: {
-    ...mapActions(['play', 'pause']),
+    ...mapActions(["play", "pause"]),
     postTrack(track_id) {
       if (!this.isFeed) {
         this.$parent.postTrack(track_id);
+      }
+    },
+    playFromFeed() {
+      if (this.index == this.currentFeedIndex) {
+        this.play({ feed_index: null });
+      } else {
+        this.play({ feed_index: this.index });
       }
     }
   }
@@ -80,5 +87,12 @@ export default {
   width: 100%;
   border-radius: 15px;
   overflow: hidden;
+}
+
+.truncate-text {
+  width: 200px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 </style>

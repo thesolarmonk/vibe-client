@@ -16,25 +16,6 @@ const routes = [
     name: 'login',
     component: Login,
     beforeEnter: (to, from, next) => {
-      var vibe_auth_cookie = getCookie('vibe_auth');
-
-      if (vibe_auth_cookie) {
-        store.dispatch('login', {
-          access_token: vibe_auth_cookie,
-          user_id: '',
-          user_name: ''
-        });
-        next('/feed');
-      }
-
-      next();
-    }
-  },
-  {
-    path: '/feed',
-    name: 'feed',
-    component: Feed,
-    beforeEnter: (to, from, next) => {
       if (to.hash) {
         let hash = to.hash;
         let stringEnd = hash.indexOf('&');
@@ -43,8 +24,35 @@ const routes = [
         store.commit('login', access_token);
 
         setCookie('vibe_auth', access_token, 0.041666667);
+        next('/');
+      } else {
+        var vibe_auth_cookie = getCookie('vibe_auth');
 
-        next('/feed');
+        if (vibe_auth_cookie) {
+          store.dispatch('login', {
+            access_token: vibe_auth_cookie,
+            user_id: '',
+            user_name: ''
+          });
+          next('/feed');
+        }
+      }
+      next();
+    }
+  },
+  {
+    path: '/feed',
+    name: 'feed',
+    component: Feed,
+    beforeEnter: (to, from, next) => {
+      var vibe_auth_cookie = getCookie('vibe_auth');
+
+      if (vibe_auth_cookie) {
+        store.dispatch('login', {
+          access_token: vibe_auth_cookie,
+          user_id: '',
+          user_name: ''
+        });
       }
       next();
     }
