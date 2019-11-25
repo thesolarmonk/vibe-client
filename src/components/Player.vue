@@ -1,55 +1,79 @@
 <template>
-  <div class="player">
-    <p v-if="getCurrentTrack.name != null" class="player--info">
-      {{ getCurrentTrack.name }} • {{ getCurrentTrack.artist }}
-    </p>
-    <button
-      class="player--button"
-      @click="
-        skip({
-          player_id: getPlayerId,
-          access_token: getAccessToken,
-          skip: 'previous'
-        })
-      "
-    >
-      Previous
-    </button>
-    <button
-      class="player--button"
-      @click="
-        play({
-          player_id: getPlayerId,
-          access_token: getAccessToken
-        })
-      "
-    >
-      Play
-    </button>
-    <button
-      class="player--button"
-      @click="
-        pause({
-          player_id: getPlayerId,
-          access_token: getAccessToken
-        })
-      "
-    >
-      Pause
-    </button>
-    <button
-      class="player--button"
-      @click="
-        skip({
-          player_id: getPlayerId,
-          access_token: getAccessToken,
-          skip: 'next'
-        })
-      "
-    >
-      Next
-    </button>
-  </div>
+  <nav
+    class="navbar is-fixed-bottom is-black is-spaced player"
+    role="navigation"
+    aria-label="main navigation"
+  >
+    <div class="navbar-menu is-active">
+      <div class="navbar-start">
+        <div class="buttons is-centered">
+          <a class="button is-black" @click="skip({ skip: 'previous' })">
+            <span class="icon is-large">
+              <i class="fas fa-lg fa-backward"></i>
+            </span>
+          </a>
+
+          <a v-if="isPlaying" class="button is-black" @click="pause()">
+            <span class="icon is-large">
+              <i class="fas fa-3x fa-pause-circle"></i>
+            </span>
+          </a>
+
+          <a v-else class="button is-black">
+            <span class="icon is-large" @click="play({ feed_index: null })">
+              <i class="fas fa-3x fa-play-circle"></i>
+            </span>
+          </a>
+
+          <a class="button is-black" @click="skip({ skip: 'next' })">
+            <span class="icon is-large">
+              <i class="fas fa-lg fa-forward"></i>
+            </span>
+          </a>
+        </div>
+      </div>
+
+      <div class="navbar-middle">
+        <div v-if="currentTrack.name != null" class="player--info content">
+          {{ currentTrack.name }}
+          <br />
+          {{ currentTrack.artist }}
+        </div>
+      </div>
+
+      <div class="navbar-end">
+        <div class="navbar-item">
+          <div class="buttons">
+            <router-link to="/feed" class="button is-black">
+              <span class="icon is-large has-text-grey">
+                <i class="fas fa-2x fa-dot-circle"></i>
+                <!-- <i class="fas fa-spinner"></i> -->
+              </span>
+            </router-link>
+            <router-link to="/profile" class="button is-black">
+              <span class="icon is-large has-text-grey">
+                <!-- <i class="far fa-user-circle"></i> -->
+                <i class="fas fa-2x fa-user-circle"></i>
+              </span>
+            </router-link>
+            <router-link to="/add" class="button is-black">
+              <span class="icon is-large has-text-grey">
+                <i class="fas fa-2x fa-plus-circle"></i>
+              </span>
+            </router-link>
+          </div>
+        </div>
+
+        <div id="navbar-divider"></div>
+
+        <div class="navbar-brand">
+          <router-link to="/feed" class="navbar-item">
+            <img src="../assets/vibe-logo-bw.png" width="80" />
+          </router-link>
+        </div>
+      </div>
+    </div>
+  </nav>
 </template>
 
 <script>
@@ -58,11 +82,10 @@ import { mapMutations } from 'vuex';
 import { mapActions } from 'vuex';
 
 export default {
-  name: 'player',
   mounted() {
     window.onSpotifyWebPlaybackSDKReady = () => {
       this.$store.state.player = new window.Spotify.Player({
-        name: 'Web Playback SDK Quick Start Player',
+        name: 'Vibe',
         getOAuthToken: cb => {
           cb(this.$store.state.access_token);
         },
@@ -93,14 +116,15 @@ export default {
       this.$store.state.player.addListener('player_state_changed', state => {
         // console.log(state);
         // console.log(state.track_window.current_track);
+        this.setCurrentFeedIndex(state.track_window.current_track.id);
         if (state.paused) {
           this.setPause();
         } else {
-          this.setPlay({
-            name: state.track_window.current_track.name,
-            id: state.track_window.current_track.id,
-            artist: state.track_window.current_track.artists[0].name
-          });
+          this.setPlay();
+
+          document
+            .getElementById(state.track_window.current_track.id)
+            .scrollIntoView({ behavior: 'smooth', block: 'center' });
         }
       });
 
@@ -133,24 +157,56 @@ export default {
     document.head.appendChild(spotifyWebplaybackSDK);
   },
   computed: {
-    ...mapGetters(['getAccessToken', 'getPlayerId', 'getCurrentTrack'])
+    ...mapGetters(['currentTrack', 'isPlaying'])
   },
   methods: {
     ...mapActions(['play', 'pause', 'skip']),
     ...mapMutations({
       setPlay: 'play',
-      setPause: 'pause'
+      setPause: 'pause',
+      setCurrentFeedIndex: 'setCurrentFeedIndex'
     })
   }
 };
 </script>
 
-<style>
+<style lang="scss">
 .player {
   background-color: black;
+  .player--info {
+    color: white;
+    .player--info-title {
+      font-weight: 800;
+    }
+
+    .player--info-title {
+      font-weight: 400;
+    }
+  }
 }
 
-.player--info {
-  color: white;
+.navbar {
+  width: 100%;
+}
+
+.navbar-start {
+  width: 20%;
+}
+
+.navbar-middle {
+  width: 60%;
+  text-align: center;
+}
+
+.navbar-end {
+  width: 20%;
+}
+
+#navbar-divider {
+  margin: 0 10px;
+}
+
+.button:hover .icon .fas {
+  color: #fff;
 }
 </style>

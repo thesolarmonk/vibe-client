@@ -35,7 +35,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(["getAccessToken", "getPlayerId"]),
+    ...mapGetters(["accessToken"]),
     showSearch() {
       return this.search_results.length != 0;
     }
@@ -48,7 +48,7 @@ export default {
       method: "GET",
       headers: {
         "content-type": "application/json",
-        authorization: `Bearer ${this.getAccessToken}`
+        authorization: `Bearer ${this.accessToken}`
       }
     })
       .then(response => response.json())
