@@ -18,44 +18,16 @@ export default new Vuex.Store({
     feed: [
       {
         playing: false,
-        user_id: 'tanujlalwani',
-        user_name: 'Tanuj Lalwani',
-        date_posted: 1573701139111,
+        user_id: 'nikhil',
+        user_name: 'Nikhil',
+        date_posted: 1573708975208,
         track: {
           sentiment_score: 0.8,
           album: {
             images: [
               {
                 url:
-                  'https://i.scdn.co/image/ab67616d00001e022fc97d8b44d992db41922534'
-              },
-              {
-                url:
-                  'https://i.scdn.co/image/ab67616d00001e022fc97d8b44d992db41922534'
-              },
-              {
-                url:
-                  'https://i.scdn.co/image/ab67616d00001e022fc97d8b44d992db41922534'
-              }
-            ]
-          },
-          name: 'placeholder',
-          artist: 'Hand Habits',
-          id: '6ABQcgTtAPCUyMkVwdRNJo'
-        }
-      },
-      {
-        playing: false,
-        user_id: 'nikhilbhatia',
-        user_name: 'Nikhil Bhatia',
-        date_posted: 1573708975208,
-        track: {
-          sentiment_score: 0.5,
-          album: {
-            images: [
-              {
-                url:
-                  'https://i.scdn.co/image/ab67616d00001e02521689e65df1695ceca59795'
+                  'https://i.scdn.co/image/ab67616d0000b273521689e65df1695ceca59795'
               },
               {
                 url:
@@ -63,7 +35,7 @@ export default new Vuex.Store({
               },
               {
                 url:
-                  'https://i.scdn.co/image/ab67616d00001e02521689e65df1695ceca59795'
+                  'https://i.scdn.co/image/ab67616d00004851521689e65df1695ceca59795'
               }
             ]
           },
@@ -74,36 +46,36 @@ export default new Vuex.Store({
       },
       {
         playing: false,
-        user_id: 'nikhilbhatia',
-        user_name: 'Nikhil Bhatia',
+        user_id: 'test2',
+        user_name: 'Tanuj',
         date_posted: 1573708975208,
         track: {
-          sentiment_score: 0.5,
+          sentiment_score: 0.3,
           album: {
             images: [
               {
                 url:
-                  'https://i.scdn.co/image/ab67616d00001e02521689e65df1695ceca59795'
+                  'https://i.scdn.co/image/a05aab098048cc7b4e448cd16d1d85cfa1720d21'
               },
               {
                 url:
-                  'https://i.scdn.co/image/ab67616d00001e02521689e65df1695ceca59795'
+                  'https://i.scdn.co/image/29b738388af610314181ceae4521c872801af6ac'
               },
               {
                 url:
-                  'https://i.scdn.co/image/ab67616d00001e02521689e65df1695ceca59795'
+                  'https://i.scdn.co/image/64bdae2ffc7ad4cbd385615170fd576316c3155d'
               }
             ]
           },
-          name: 'Habits',
-          artist: 'Shallou',
-          id: '1OCrb7dmygmJiDcjdFAPR8'
+          name: 'I Wish I Never Met You',
+          artist: 'Oh Wonder',
+          id: '4P6Y4uhdy4Z9W9WUdCjt8l'
         }
       },
       {
         playing: false,
-        user_id: 'nikhilbhatia',
-        user_name: 'Nikhil Bhatia',
+        user_id: 'test4',
+        user_name: 'Nihar',
         date_posted: 1573708975208,
         track: {
           sentiment_score: 0.5,
@@ -111,27 +83,27 @@ export default new Vuex.Store({
             images: [
               {
                 url:
-                  'https://i.scdn.co/image/ab67616d00001e02521689e65df1695ceca59795'
+                  'https://i.scdn.co/image/ab67616d0000b2739d3ad3a9fa90bf0dee0ae5be'
               },
               {
                 url:
-                  'https://i.scdn.co/image/ab67616d00001e02521689e65df1695ceca59795'
+                  'https://i.scdn.co/image/ab67616d00001e029d3ad3a9fa90bf0dee0ae5be'
               },
               {
                 url:
-                  'https://i.scdn.co/image/ab67616d00001e02521689e65df1695ceca59795'
+                  'https://i.scdn.co/image/ab67616d000048519d3ad3a9fa90bf0dee0ae5be'
               }
             ]
           },
-          name: 'Habits',
-          artist: 'Shallou',
-          id: '1OCrb7dmygmJiDcjdFAPR8'
+          name: 'Makeba',
+          artist: 'Jain',
+          id: '5JdLUE9D743ob2RtgmVpVx'
         }
       },
       {
         playing: false,
-        user_id: 'nikhilbhatia',
-        user_name: 'Nikhil Bhatia',
+        user_id: 'test5',
+        user_name: 'David',
         date_posted: 1573708975208,
         track: {
           sentiment_score: 0.5,
@@ -139,27 +111,27 @@ export default new Vuex.Store({
             images: [
               {
                 url:
-                  'https://i.scdn.co/image/ab67616d00001e02521689e65df1695ceca59795'
+                  'https://i.scdn.co/image/ab67616d0000b273da45750734ba67831abf4f76'
               },
               {
                 url:
-                  'https://i.scdn.co/image/ab67616d00001e02521689e65df1695ceca59795'
+                  'https://i.scdn.co/image/ab67616d00001e02da45750734ba67831abf4f76'
               },
               {
                 url:
-                  'https://i.scdn.co/image/ab67616d00001e02521689e65df1695ceca59795'
+                  'https://i.scdn.co/image/ab67616d00004851da45750734ba67831abf4f76'
               }
             ]
           },
-          name: 'Habits',
-          artist: 'Shallou',
-          id: '1OCrb7dmygmJiDcjdFAPR8'
+          name: "6's to 9's (feat. Rationale)",
+          artist: 'Big Wild',
+          id: '4DAaQ5InUO23d8yNRbB0Yj'
         }
       },
       {
         playing: false,
-        user_id: 'nikhilbhatia',
-        user_name: 'Nikhil Bhatia',
+        user_id: 'test6',
+        user_name: 'Sophie',
         date_posted: 1573708975208,
         track: {
           sentiment_score: 0.5,
@@ -167,27 +139,27 @@ export default new Vuex.Store({
             images: [
               {
                 url:
-                  'https://i.scdn.co/image/ab67616d00001e02521689e65df1695ceca59795'
+                  'https://i.scdn.co/image/ab67616d0000b27350fd96bb9e4c5a3fdd4496bc'
               },
               {
                 url:
-                  'https://i.scdn.co/image/ab67616d00001e02521689e65df1695ceca59795'
+                  'https://i.scdn.co/image/ab67616d00001e0250fd96bb9e4c5a3fdd4496bc'
               },
               {
                 url:
-                  'https://i.scdn.co/image/ab67616d00001e02521689e65df1695ceca59795'
+                  'https://i.scdn.co/image/ab67616d0000485150fd96bb9e4c5a3fdd4496bc'
               }
             ]
           },
-          name: 'Habits',
-          artist: 'Shallou',
-          id: '1OCrb7dmygmJiDcjdFAPR8'
+          name: 'anemone',
+          artist: 'slenderbodies',
+          id: '1MD2yGSeBRALkMui1fZ05P'
         }
       },
       {
         playing: false,
-        user_id: 'nikhilbhatia',
-        user_name: 'Nikhil Bhatia',
+        user_id: 'nikhil',
+        user_name: 'Nikhil',
         date_posted: 1573708975208,
         track: {
           sentiment_score: 0.5,
@@ -195,27 +167,27 @@ export default new Vuex.Store({
             images: [
               {
                 url:
-                  'https://i.scdn.co/image/ab67616d00001e02521689e65df1695ceca59795'
+                  'https://i.scdn.co/image/ab67616d0000b27363f4e8a0bd5f2aac711a50fd'
               },
               {
                 url:
-                  'https://i.scdn.co/image/ab67616d00001e02521689e65df1695ceca59795'
+                  'https://i.scdn.co/image/ab67616d00001e0263f4e8a0bd5f2aac711a50fd'
               },
               {
                 url:
-                  'https://i.scdn.co/image/ab67616d00001e02521689e65df1695ceca59795'
+                  'https://i.scdn.co/image/ab67616d0000485163f4e8a0bd5f2aac711a50fd'
               }
             ]
           },
-          name: 'Habits',
-          artist: 'Shallou',
-          id: '1OCrb7dmygmJiDcjdFAPR8'
+          name: 'World On Fire',
+          artist: 'Louis the Child',
+          id: '22wcNdDej7sJO0UnaerFN7'
         }
       },
       {
         playing: false,
-        user_id: 'nikhilbhatia',
-        user_name: 'Nikhil Bhatia',
+        user_id: 'test6',
+        user_name: 'David',
         date_posted: 1573708975208,
         track: {
           sentiment_score: 0.5,
@@ -223,27 +195,27 @@ export default new Vuex.Store({
             images: [
               {
                 url:
-                  'https://i.scdn.co/image/ab67616d00001e02521689e65df1695ceca59795'
+                  'https://i.scdn.co/image/c6a2c025f8c433ef980b7c416f4b873c2872fa0f'
               },
               {
                 url:
-                  'https://i.scdn.co/image/ab67616d00001e02521689e65df1695ceca59795'
+                  'https://i.scdn.co/image/9f2b07060668c86f3ed8355c0f61a87089a2022a'
               },
               {
                 url:
-                  'https://i.scdn.co/image/ab67616d00001e02521689e65df1695ceca59795'
+                  'https://i.scdn.co/image/32a3dc4fdbecc950ce8bde1001fcd1d43bba074f'
               }
             ]
           },
-          name: 'Habits',
-          artist: 'Shallou',
-          id: '1OCrb7dmygmJiDcjdFAPR8'
+          name: 'I Wanna Dance With Somebody',
+          artist: 'Marian Hill',
+          id: '4z9WXbp9oQxnRtmBV8bh5X'
         }
       },
       {
         playing: false,
-        user_id: 'nikhilbhatia',
-        user_name: 'Nikhil Bhatia',
+        user_id: 'test8',
+        user_name: 'Sophie',
         date_posted: 1573708975208,
         track: {
           sentiment_score: 0.5,
@@ -251,21 +223,21 @@ export default new Vuex.Store({
             images: [
               {
                 url:
-                  'https://i.scdn.co/image/ab67616d00001e02521689e65df1695ceca59795'
+                  'https://i.scdn.co/image/ab67616d0000b273c84f9009bb5cdeb4039e2eca'
               },
               {
                 url:
-                  'https://i.scdn.co/image/ab67616d00001e02521689e65df1695ceca59795'
+                  'https://i.scdn.co/image/ab67616d00001e02c84f9009bb5cdeb4039e2eca'
               },
               {
                 url:
-                  'https://i.scdn.co/image/ab67616d00001e02521689e65df1695ceca59795'
+                  'https://i.scdn.co/image/ab67616d00004851c84f9009bb5cdeb4039e2eca'
               }
             ]
           },
-          name: 'Habits',
-          artist: 'Shallou',
-          id: '1OCrb7dmygmJiDcjdFAPR8'
+          name: 'Paspatou',
+          artist: 'Parra for Cuva',
+          id: '4NpPKFIQXU3ZrlcG7T6PTT'
         }
       }
     ],
@@ -328,8 +300,15 @@ export default new Vuex.Store({
     pause(state) {
       state.playing = false;
     },
-    setCurrentFeedIndex(state, index) {
-      state.current_feed_index = index;
+    setCurrentFeedIndex(state, current_track_id) {
+      state.feed.forEach((post, i) => {
+        if (current_track_id == post.track.id) {
+          post.playing = true;
+          state.current_feed_index = i;
+        } else {
+          post.playing = false;
+        }
+      });
     }
   },
   actions: {

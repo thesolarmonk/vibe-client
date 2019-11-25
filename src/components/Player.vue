@@ -68,7 +68,7 @@
 
         <div class="navbar-brand">
           <router-link to="/feed" class="navbar-item">
-            <img src="../assets/vibe-logo.png" width="80" />
+            <img src="../assets/vibe-logo-bw.png" width="80" />
           </router-link>
         </div>
       </div>
@@ -116,11 +116,15 @@ export default {
       this.$store.state.player.addListener('player_state_changed', state => {
         // console.log(state);
         // console.log(state.track_window.current_track);
-        this.setCurrentFeedIndex(state.track_window.previous_tracks.length);
+        this.setCurrentFeedIndex(state.track_window.current_track.id);
         if (state.paused) {
           this.setPause();
         } else {
           this.setPlay();
+
+          document
+            .getElementById(state.track_window.current_track.id)
+            .scrollIntoView({ behavior: 'smooth', block: 'center' });
         }
       });
 

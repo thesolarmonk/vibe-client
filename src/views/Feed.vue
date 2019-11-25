@@ -3,10 +3,11 @@
     <div class="post--list">
       <post
         v-for="(post, index) in feed"
-        v-bind:key="index"
-        v-bind:post_data="post"
-        v-bind:index="index"
+        :key="index"
+        :post_data="post"
+        :index="index"
         :class="{ playing: index == currentFeedIndex }"
+        :id="post.track.id"
       ></post>
     </div>
   </div>
@@ -43,9 +44,9 @@ export default {
 
 <style>
 .post--list {
-  margin: 15% auto 5% 10%;
+  margin: 7% auto 5% 10%;
 
-  width: 25%;
+  width: 28%;
 }
 
 .feed {

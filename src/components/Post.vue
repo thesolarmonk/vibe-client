@@ -1,8 +1,7 @@
 <template>
   <div class="box post">
-    <h6 class="post--user_name title is-6">
-      Shared by {{ user_name }} • {{ date_posted }}
-    </h6>
+    <h6 class="post--user_name title is-6">Shared by {{ user_name }}</h6>
+    <h6 class="post--time title is-6">{{ date_posted }}</h6>
     <!-- • Sentiment: {{ sentiment_score }} -->
     <track-item
       class="post--track"
@@ -57,5 +56,13 @@ export default {
 
 .playing {
   border: 3px dashed #fff;
+}
+
+.post--user_name {
+  float: left;
+}
+
+.post--time {
+  float: right;
 }
 </style>

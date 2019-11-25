@@ -52,7 +52,7 @@ export default {
   computed: {
     ...mapGetters(['currentFeedIndex', 'isPlaying']),
     albumArtUrl() {
-      return this.track_data.album.images[2].url;
+      return this.track_data.album.images[0].url;
     },
     trackName() {
       return this.track_data.name;
