@@ -1,5 +1,5 @@
 <template>
-  <div class="card track">
+  <div class="card track" :class="{ 'is-profile': isProfile }">
     <div class="card-image">
       <figure class="image is-3by3">
         <img class="track--album-art" :src="albumArtUrl" alt="Placeholder image" />
@@ -8,7 +8,7 @@
     <div class="card-content">
       <div class="media">
         <div class="media-left">
-          <a v-if="isFeed" class="button is-black track--play">
+          <a v-if="isFeed" v-show="!isProfile" class="button is-black track--play">
             <span
               v-if="index == currentFeedIndex && isPlaying"
               class="icon is-large"
@@ -20,7 +20,7 @@
               <i class="fas fa-3x fa-play-circle"></i>
             </span>
           </a>
-          <a v-else class="button is-black track--post-new">
+          <a v-else v-show="!isProfile" class="button is-black track--post-new">
             <span class="icon is-large" @click="postTrack(trackId)">
               <i class="fas fa-plus-circle" :class="{ 'fa-3x': isFeed, 'fa-2x': !isFeed}"></i>
             </span>
@@ -44,7 +44,7 @@ import { mapActions } from "vuex";
 import { mapGetters } from "vuex";
 
 export default {
-  props: ["track_data", "isFeed", "index"],
+  props: ["track_data", "isFeed", "index", "isProfile"],
   computed: {
     ...mapGetters(["currentFeedIndex", "isPlaying"]),
     albumArtUrl() {
@@ -87,6 +87,14 @@ export default {
   width: 100%;
   border-radius: 15px;
   overflow: hidden;
+}
+
+.is-profile {
+  margin-bottom: 30px;
+}
+
+.is-profile:last-child {
+  margin-bottom: 3px;
 }
 
 .truncate-text {

@@ -1,40 +1,112 @@
 <template>
-  <div class="container">
-    <div class="item-user-profile">
-      <figure class="image is-128x128" v-bind:style="profileImageObject">
-        <img
-          class="is-rounded"
-          src="https://icon-library.net//images/default-user-icon/default-user-icon-9.jpg"
-        />
-      </figure>
-      <p v-bind:style="userNameObject">{{userName}}</p>
-    </div>
-    <div class="item-song-list">
-      <p class="sub-item">Top Tracks</p>
-    </div>
-    <div class="item-header">
-      <p class="header">Analytics</p>
-    </div>
-    <div class="item-data">
-      <div class="data-item">
-        <p>100</p>
-        <p>Friends</p>
-      </div>
-      <div class="data-item">
-        <p>10</p>
-        <p>Songs</p>
-      </div>
-      <div class="data-item">
-        <p>12</p>
-        <p>Active Days</p>
+  <div class="profile">
+    <div class="profile-container profile--user-info">
+      <img
+        class="is-rounded"
+        src="https://icon-library.net//images/default-user-icon/default-user-icon-9.jpg"
+      />
+      <p class="user-name-object">{{getUserName}}</p>
+      <div class="item-data">
+        <div class="data-item">
+          <p>100</p>
+          <p>Friends</p>
+        </div>
+        <div class="data-item">
+          <p>10</p>
+          <p>Songs</p>
+        </div>
+        <div class="data-item">
+          <p>12</p>
+          <p>Active Days</p>
+        </div>
       </div>
     </div>
-    <div class="item-main-graph"></div>
-    <div class="item-graph"></div>
+    <div class="profile-container profile--graphs">
+      <!-- <template>
+        <b-carousel
+          v-model="carousel"
+          :animated="slide"
+          :autoplay="false"
+          :pause-hover="true"
+          :pause-info="true"
+          :interval="3000"
+          :arrow="true"
+          :arrow-both="false"
+          :icon-pack="fas"
+          :icon-size="is-large"
+          :indicator-style="is-lines"
+        >
+          <b-carousel-item>
+            <section class="graph">
+              <h1 class="title">Graph 1</h1>
+            </section>
+          </b-carousel-item>
+          <b-carousel-item>
+            <section class="graph">
+              <h1 class="title">Graph 2</h1>
+            </section>
+          </b-carousel-item>
+        </b-carousel>
+      </template>-->
+    </div>
+    <div class="profile-container profile--posts-list">
+      <track-item
+        v-for="track in recently_posted_tracks"
+        :key="track.track.id"
+        :track_data="track.track"
+        :isProfile="true"
+        class="track"
+      ></track-item>
+    </div>
   </div>
 </template>
 
-<style type="text/css">
+<style scoped>
+.profile {
+  display: grid;
+
+  grid-template-columns: [info-start] 1fr [info-end graphs-start] 3fr [graphs-end posts-start] 1.5fr [posts-end];
+  /* grid-template-rows: [info-start] 0.5fr [input-end header-start] 0.3fr [header-end results-start] 10fr [results-end]; */
+  column-gap: 25px;
+
+  padding: 2%;
+  overflow: hidden;
+  /* background-image: linear-gradient(0deg, rgb(85, 85, 85) 0%, #000000 25%); */
+}
+
+.profile-container {
+  border-radius: 20px;
+}
+
+.profile--user-info {
+  grid-column: info-start / info-end;
+  background-color: #333;
+}
+
+.profile--graphs {
+  grid-column: graphs-start / graphs-end;
+  background-color: #333;
+}
+
+.carousel,
+.carousel-list,
+.carousel-item,
+.graph {
+  height: 100% !important;
+}
+
+.profile--posts-list {
+  grid-column: posts-start / posts-end;
+
+  overflow-x: scroll;
+}
+
+.profile--posts-list::-webkit-scrollbar {
+  display: none;
+}
+
+/*  ****************************************** */
+
 .item-user-profile {
   grid-area: user-profile;
   position: relative;
@@ -106,63 +178,66 @@
   float: left;
 }
 
-.app--view {
-  grid-row: view-start / view-end;
-  overflow-x: visible;
+.profile-image-object {
+  padding-left: "40px";
+  width: "50px";
+  float: "left";
+  height: "100px";
 }
 
-.container {
-  padding-top: 30px;
-  display: grid;
-  grid-column-gap: 10px;
-  grid-row-gap: 15px;
-  grid-template-columns: 300px 300px 200px 400px;
-  grid-template-rows: 100px 100px 200px 220px;
-  grid-template-areas:
-    "user-profile header header header"
-    "song-list data data data"
-    "song-list main-graph main-graph graph"
-    "song-list main-graph main-graph graph";
+.user-name-object {
+  display: "table-cell";
+  padding-top: "35px";
+  padding-left: "40px";
+  float: "left";
+  margin-left: "30px";
+  font-size: "large";
 }
 </style>
 
 <script>
 import { mapGetters } from "vuex";
+
+import TrackItem from "../components/Track.vue";
+
 export default {
-  name: "",
-  components: {},
+  components: {
+    TrackItem
+  },
+  data() {
+    return {
+      recently_posted_tracks: 0
+    };
+  },
   props: {
     callMe: {
       type: Function
     }
   },
   computed: {
-    ...mapGetters(["getUserId", "getUserName"])
-  },
-  data() {
-    return {
-      profileImageObject: {
-        paddingLeft: "40px",
-        width: "50px",
-        float: "left",
-        height: "100px"
-      },
-      userNameObject: {
-        display: "table-cell",
-        paddingTop: "35px",
-        paddingLeft: "40px",
-        float: "left",
-        marginLeft: "30px",
-        fontSize: "large"
-      },
-      userName: this.getUserName
-    };
+    ...mapGetters(["getUserId", "getUserName", "accessToken"])
   },
   methods: {
     flipMini() {
       this.mini = !this.mini;
       this.callMe("flip");
     }
+  },
+  mounted() {
+    let url = `${process.env.VUE_APP_SPOTIFY_API_URL}/v1/me/player/recently-played?limit=12`;
+
+    fetch(url, {
+      method: "GET",
+      headers: {
+        "content-type": "application/json",
+        authorization: `Bearer ${this.accessToken}`
+      }
+    })
+      .then(response => response.json())
+      .then(data => (this.recently_posted_tracks = data.items))
+      .catch(err => {
+        console.log(err);
+      });
   }
 };
 </script>
