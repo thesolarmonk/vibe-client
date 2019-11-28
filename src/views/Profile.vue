@@ -5,7 +5,7 @@
         class="is-rounded"
         src="https://icon-library.net//images/default-user-icon/default-user-icon-9.jpg"
       />
-      <p class="user-name-object">{{getUserName}}</p>
+      <p class="user-name-object">{{ getUserName }}</p>
       <div class="item-data">
         <div class="data-item">
           <p>100</p>
@@ -48,6 +48,7 @@
           </b-carousel-item>
         </b-carousel>
       </template>-->
+      <chart></chart>
     </div>
     <div class="profile-container profile--posts-list">
       <track-item
@@ -60,6 +61,44 @@
     </div>
   </div>
 </template>
+
+<script>
+import { mapGetters } from 'vuex';
+
+import Chart from '../components/Chart.vue';
+import TrackItem from '../components/Track.vue';
+
+export default {
+  components: {
+    Chart,
+    TrackItem
+  },
+  data() {
+    return {
+      recently_posted_tracks: 0
+    };
+  },
+  computed: {
+    ...mapGetters(['getUserId', 'getUserName', 'accessToken'])
+  },
+  mounted() {
+    let url = `${process.env.VUE_APP_SPOTIFY_API_URL}/v1/me/player/recently-played?limit=12`;
+
+    fetch(url, {
+      method: 'GET',
+      headers: {
+        'content-type': 'application/json',
+        authorization: `Bearer ${this.accessToken}`
+      }
+    })
+      .then(response => response.json())
+      .then(data => (this.recently_posted_tracks = data.items))
+      .catch(err => {
+        console.log(err);
+      });
+  }
+};
+</script>
 
 <style scoped>
 .profile {
@@ -179,65 +218,18 @@
 }
 
 .profile-image-object {
-  padding-left: "40px";
-  width: "50px";
-  float: "left";
-  height: "100px";
+  padding-left: '40px';
+  width: '50px';
+  float: 'left';
+  height: '100px';
 }
 
 .user-name-object {
-  display: "table-cell";
-  padding-top: "35px";
-  padding-left: "40px";
-  float: "left";
-  margin-left: "30px";
-  font-size: "large";
+  display: 'table-cell';
+  padding-top: '35px';
+  padding-left: '40px';
+  float: 'left';
+  margin-left: '30px';
+  font-size: 'large';
 }
 </style>
-
-<script>
-import { mapGetters } from "vuex";
-
-import TrackItem from "../components/Track.vue";
-
-export default {
-  components: {
-    TrackItem
-  },
-  data() {
-    return {
-      recently_posted_tracks: 0
-    };
-  },
-  props: {
-    callMe: {
-      type: Function
-    }
-  },
-  computed: {
-    ...mapGetters(["getUserId", "getUserName", "accessToken"])
-  },
-  methods: {
-    flipMini() {
-      this.mini = !this.mini;
-      this.callMe("flip");
-    }
-  },
-  mounted() {
-    let url = `${process.env.VUE_APP_SPOTIFY_API_URL}/v1/me/player/recently-played?limit=12`;
-
-    fetch(url, {
-      method: "GET",
-      headers: {
-        "content-type": "application/json",
-        authorization: `Bearer ${this.accessToken}`
-      }
-    })
-      .then(response => response.json())
-      .then(data => (this.recently_posted_tracks = data.items))
-      .catch(err => {
-        console.log(err);
-      });
-  }
-};
-</script>
