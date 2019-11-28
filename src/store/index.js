@@ -68,7 +68,11 @@ export default new Vuex.Store({
             ]
           },
           name: 'I Wish I Never Met You',
-          artist: 'Oh Wonder',
+          artists: [
+            {
+              name: 'Oh Wonder'
+            }
+          ],
           id: '4P6Y4uhdy4Z9W9WUdCjt8l'
         }
       },
@@ -325,7 +329,7 @@ export default new Vuex.Store({
     }
   },
   actions: {
-    login: ({ commit }, payload) => {
+    login: ({ commit, state }, payload) => {
       fetch(`${process.env.VUE_APP_SPOTIFY_API_URL}/v1/me`, {
         method: 'GET',
         headers: {
@@ -335,6 +339,21 @@ export default new Vuex.Store({
       })
         .then(response => response.json())
         .then(data => {
+          let body = JSON.stringify({
+            user_id: data.id,
+            user_name: data.display_name,
+            profile_pic_url: data.images[0].url,
+            auth_token: state.access_token
+          });
+          console.log(body);
+          fetch(`${process.env.VUE_APP_VIBE_API_URL}/api/users`, {
+            method: 'PUT',
+            body: body,
+            headers: {
+              'content-type': 'application/json'
+            }
+          }).then(response => response.json());
+
           payload.user_id = data.id;
           payload.user_name = data.display_name;
           commit('login', payload);

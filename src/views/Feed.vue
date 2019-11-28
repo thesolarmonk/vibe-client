@@ -88,7 +88,7 @@ export default {
 }
 
 .feed::-webkit-scrollbar-thumb {
-  background-color: #ffffff;
+  background-color: #888888;
   border-radius: 15px;
 }
 
