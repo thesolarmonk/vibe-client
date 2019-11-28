@@ -2,13 +2,21 @@
   <div class="card track" :class="{ 'is-profile': isProfile }">
     <div class="card-image">
       <figure class="image is-3by3">
-        <img class="track--album-art" :src="albumArtUrl" alt="Placeholder image" />
+        <img
+          class="track--album-art"
+          :src="albumArtUrl"
+          alt="Placeholder image"
+        />
       </figure>
     </div>
     <div class="card-content">
       <div class="media">
         <div class="media-left">
-          <a v-if="isFeed" v-show="!isProfile" class="button is-black track--play">
+          <a
+            v-if="isFeed"
+            v-show="!isProfile"
+            class="button is-black track--play"
+          >
             <span
               v-if="index == currentFeedIndex && isPlaying"
               class="icon is-large"
@@ -22,14 +30,21 @@
           </a>
           <a v-else v-show="!isProfile" class="button is-black track--post-new">
             <span class="icon is-large" @click="postTrack(trackId)">
-              <i class="fas fa-plus-circle" :class="{ 'fa-3x': isFeed, 'fa-2x': !isFeed}"></i>
+              <i
+                class="fas fa-plus-circle"
+                :class="{ 'fa-3x': isFeed, 'fa-2x': !isFeed }"
+              ></i>
             </span>
           </a>
         </div>
         <div class="media-content">
           <p
             class="track--name title is-2"
-            :class="{ 'is-4': isFeed, 'is-6': !isFeed, 'truncate-text': !isFeed}"
+            :class="{
+              'is-4': isFeed,
+              'is-6': !isFeed,
+              'truncate-text': !isFeed
+            }"
             v-html="trackName"
           ></p>
           <p class="track--artist subtitle is-6" v-html="trackArtist"></p>
@@ -40,13 +55,13 @@
 </template>
 
 <script>
-import { mapActions } from "vuex";
-import { mapGetters } from "vuex";
+import { mapActions } from 'vuex';
+import { mapGetters } from 'vuex';
 
 export default {
-  props: ["track_data", "isFeed", "index", "isProfile"],
+  props: ['track_data', 'isFeed', 'index', 'isProfile'],
   computed: {
-    ...mapGetters(["currentFeedIndex", "isPlaying"]),
+    ...mapGetters(['currentFeedIndex', 'isPlaying']),
     albumArtUrl() {
       return this.track_data.album.images[0].url;
     },
@@ -65,7 +80,7 @@ export default {
     }
   },
   methods: {
-    ...mapActions(["play", "pause"]),
+    ...mapActions(['play', 'pause']),
     postTrack(track_id) {
       if (!this.isFeed) {
         this.$parent.postTrack(track_id);
@@ -90,11 +105,15 @@ export default {
 }
 
 .is-profile {
-  margin-bottom: 30px;
+  margin-bottom: 25px;
+}
+
+.is-profile:first-child {
+  margin-top: 6px;
 }
 
 .is-profile:last-child {
-  margin-bottom: 3px;
+  margin-bottom: 6px;
 }
 
 .truncate-text {

@@ -15,7 +15,9 @@
       </div>
       <!-- <button class="search-bar--submit">Search</button> -->
     </form>
-    <h3 v-if="showSearch" class="results-title title is-3">Recently Played Tracks</h3>
+    <h3 v-if="showSearch" class="results-title title is-3">
+      Recently Played Tracks
+    </h3>
     <div v-if="showSearch" class="recently-played">
       <div class="recently-played--list">
         <track-item
@@ -30,12 +32,12 @@
 </template>
 
 <script>
-import TrackItem from "../components/Track.vue";
+import TrackItem from '../components/Track.vue';
 
-import { mapGetters } from "vuex";
+import { mapGetters } from 'vuex';
 
 export default {
-  name: "search",
+  name: 'search',
   components: {
     TrackItem
   },
@@ -46,7 +48,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(["accessToken"]),
+    ...mapGetters(['accessToken']),
     showSearch() {
       return this.search_results.length != 0;
     }
@@ -56,9 +58,9 @@ export default {
     let url = `${process.env.VUE_APP_SPOTIFY_API_URL}/v1/me/player/recently-played?limit=${recently_played_limit}`;
 
     fetch(url, {
-      method: "GET",
+      method: 'GET',
       headers: {
-        "content-type": "application/json",
+        'content-type': 'application/json',
         authorization: `Bearer ${this.accessToken}`
       }
     })
@@ -78,7 +80,7 @@ export default {
         track_id: track_id
       };
 
-      console.log("Posting track: " + JSON.stringify(data));
+      console.log('Posting track: ' + JSON.stringify(data));
 
       // fetch(url, {
       //   method: "POST",
@@ -105,7 +107,8 @@ export default {
 
   padding: 0% 5%;
 
-  background-image: linear-gradient(0deg, rgb(85, 85, 85) 0%, #000000 25%);
+  /* background-image: linear-gradient(0deg, rgb(85, 85, 85) 0%, #000000 25%); */
+  background-color: rgba(0, 0, 0, 0.4);
 }
 
 .search-bar {

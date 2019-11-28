@@ -13,14 +13,14 @@
 </template>
 
 <script>
-import TrackItem from "./Track.vue";
+import TrackItem from './Track.vue';
 
 export default {
-  name: "post",
+  name: 'post',
   components: {
     TrackItem
   },
-  props: ["post_data", "index"],
+  props: ['post_data', 'index'],
   data() {
     return {};
   },
@@ -37,9 +37,9 @@ export default {
       let timeDifferenceDays = Math.abs(dateNow - datePosted) / 864e5;
 
       if (timeDifferenceDays < 1) {
-        return "Today";
+        return 'Today';
       } else if (Math.floor(timeDifferenceDays) == 1) {
-        return "Yesterday";
+        return 'Yesterday';
       } else {
         return `${Math.floor(timeDifferenceDays)} days ago`;
       }
@@ -52,6 +52,9 @@ export default {
 .post {
   /* border: 3px solid white; */
   margin: 40px 0;
+
+  background-color: rgba(0, 0, 0, 0.6);
+  // border: 1px solid #ffffff;
 }
 
 .playing {

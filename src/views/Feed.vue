@@ -1,5 +1,5 @@
 <template>
-  <div class="feed" :class="currentSentiment">
+  <div class="feed">
     <div class="post--list">
       <post
         v-for="(post, index) in feed"
@@ -14,17 +14,17 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
+import { mapGetters } from 'vuex';
 
-import Post from "../components/Post.vue";
+import Post from '../components/Post.vue';
 
 export default {
-  name: "",
+  name: '',
   components: {
     Post
   },
   computed: {
-    ...mapGetters(["feed", "currentFeedIndex", "currentSentiment"])
+    ...mapGetters(['feed', 'currentFeedIndex', 'currentSentiment'])
   },
   mounted() {
     // let url = `${process.env.VUE_APP_VIBE_API_URL}/api/users/${getUserId}/getNewsFeed`;
@@ -49,13 +49,7 @@ export default {
   width: 29%;
 }
 
-.feed {
-  /* background-image: linear-gradient(
-    to top,
-    rgba(0, 0, 0, 0) 0%,
-    rgba(0, 0, 0, 1) 70%
-  ); */
-
+/* .feed {
   background-image: radial-gradient(
     100% 80% at bottom,
     transparent 0%,
@@ -77,7 +71,7 @@ export default {
 
 .sad {
   background-color: #00aeff;
-}
+} */
 
 .feed::-webkit-scrollbar {
   width: 6px;

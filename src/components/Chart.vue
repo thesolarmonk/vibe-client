@@ -1,9 +1,12 @@
 <template>
-  <svg width="500" height="270">
-    <g style="transform: translate(0, 10px)">
-      <path :d="line" />
-    </g></svg
-></template>
+  <div class="d3">
+    <svg width="500" height="270">
+      <g style="transform: translate(0, 10px)">
+        <path :d="line" />
+      </g>
+    </svg>
+  </div>
+</template>
 
 <script>
 import * as d3 from 'd3';

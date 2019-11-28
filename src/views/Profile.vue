@@ -2,22 +2,25 @@
   <div class="profile">
     <div class="profile-container profile--user-info">
       <img
-        class="is-rounded"
-        src="https://icon-library.net//images/default-user-icon/default-user-icon-9.jpg"
+        class="profile--user-info-picture"
+        src="https://deposify.com/wp-content/uploads/2016/07/footer-gradient-circle.png"
       />
-      <p class="user-name-object">{{ getUserName }}</p>
-      <div class="item-data">
-        <div class="data-item">
-          <p>100</p>
-          <p>Friends</p>
+      <div class="container has-text-centered">
+        <h5 class="title is-5 profile--user-info-name">{{ getUserName }}</h5>
+        <span class="tag is-light profile--user-info-id">@{{ getUserId }}</span>
+      </div>
+      <div class="profile--user-info-stats">
+        <div class="container has-text-centered stats">
+          <h4 class="title is-4 is-uppercase">100</h4>
+          <h4 class="subtitle is-4">Friends</h4>
         </div>
-        <div class="data-item">
-          <p>10</p>
-          <p>Songs</p>
+        <div class="container has-text-centered stats">
+          <h4 class="title is-4 is-uppercase">10</h4>
+          <h4 class="subtitle is-4">Posts</h4>
         </div>
-        <div class="data-item">
-          <p>12</p>
-          <p>Active Days</p>
+        <div class="container has-text-centered stats">
+          <h4 class="title is-4 is-uppercase">Mood</h4>
+          <h4 class="subtitle is-4">Happy</h4>
         </div>
       </div>
     </div>
@@ -104,13 +107,12 @@ export default {
 .profile {
   display: grid;
 
-  grid-template-columns: [info-start] 1fr [info-end graphs-start] 3fr [graphs-end posts-start] 1.5fr [posts-end];
-  /* grid-template-rows: [info-start] 0.5fr [input-end header-start] 0.3fr [header-end results-start] 10fr [results-end]; */
+  grid-template-columns: [info-start] 1fr [info-end graphs-start] 2.5fr [graphs-end posts-start] 1fr [posts-end];
   column-gap: 25px;
 
-  padding: 2%;
+  padding: 2% 2% 3% 2%;
   overflow: hidden;
-  /* background-image: linear-gradient(0deg, rgb(85, 85, 85) 0%, #000000 25%); */
+  background-color: rgba(0, 0, 0, 0.3);
 }
 
 .profile-container {
@@ -119,12 +121,33 @@ export default {
 
 .profile--user-info {
   grid-column: info-start / info-end;
-  background-color: #333;
+
+  background-color: rgba(0, 0, 0, 0.5);
+  border: 1px solid #ffffff;
+}
+
+.profile--user-info-picture {
+  /* border: 2px dashed white; */
+  border-radius: 10000px;
+
+  padding: 30px 35px 10px 35px;
+}
+
+.profile--user-info-id {
+  margin-bottom: 15px;
+}
+
+.stats {
+  width: 100%;
+  padding: 25px 0 20px 0;
+  border-top: 1px solid white;
 }
 
 .profile--graphs {
   grid-column: graphs-start / graphs-end;
-  background-color: #333;
+
+  background-color: rgba(0, 0, 0, 0.5);
+  border: 1px solid #ffffff;
 }
 
 .carousel,
@@ -142,94 +165,5 @@ export default {
 
 .profile--posts-list::-webkit-scrollbar {
   display: none;
-}
-
-/*  ****************************************** */
-
-.item-user-profile {
-  grid-area: user-profile;
-  position: relative;
-  border: 2px solid #66ff66;
-  border-radius: 12px;
-}
-
-.item-song-list {
-  grid-area: song-list;
-  border: 2px solid green;
-  border-radius: 12px;
-}
-
-.item-header {
-  grid-area: header;
-  border: 2px solid #ccff99;
-  border-radius: 12px;
-  position: relative;
-}
-
-.item-data {
-  grid-area: data;
-  border: 2px solid #80d4ff;
-  border-radius: 12px;
-}
-
-.item-main-graph {
-  grid-area: main-graph;
-  border: 2px solid blue;
-  border-radius: 12px;
-}
-
-.item-graph {
-  grid-area: graph;
-  border: 2px solid blueviolet;
-  border-radius: 12px;
-}
-
-.is-rounded {
-  max-width: 100%;
-  height: 50px;
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  margin: auto;
-}
-
-.header {
-  max-width: 100%;
-  font-size: 24px;
-  line-height: 15px;
-  height: 20px;
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  margin: auto;
-}
-
-.user-name {
-  float: left;
-  margin-left: 30px;
-}
-
-.data-item {
-  text-align: center;
-  padding-left: 130px;
-  padding-top: 25px;
-  padding-right: 100px;
-  float: left;
-}
-
-.profile-image-object {
-  padding-left: '40px';
-  width: '50px';
-  float: 'left';
-  height: '100px';
-}
-
-.user-name-object {
-  display: 'table-cell';
-  padding-top: '35px';
-  padding-left: '40px';
-  float: 'left';
-  margin-left: '30px';
-  font-size: 'large';
 }
 </style>
