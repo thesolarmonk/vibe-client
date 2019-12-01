@@ -48,14 +48,19 @@ export default {
 };
 </script>
 
-<style>
+<style lang="scss">
 .post {
   /* border: 3px solid white; */
   margin: 40px 0;
+
+  background-color: rgba(0, 0, 0, 0.6);
+  // border: 1px solid #ffffff;
 }
 
 .playing {
-  border: 3px dashed #fff;
+  .track {
+    border: 3px dashed #fff;
+  }
 }
 
 .post--user_name {

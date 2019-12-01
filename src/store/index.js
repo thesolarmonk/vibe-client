@@ -68,7 +68,11 @@ export default new Vuex.Store({
             ]
           },
           name: 'I Wish I Never Met You',
-          artist: 'Oh Wonder',
+          artists: [
+            {
+              name: 'Oh Wonder'
+            }
+          ],
           id: '4P6Y4uhdy4Z9W9WUdCjt8l'
         }
       },
@@ -241,8 +245,8 @@ export default new Vuex.Store({
         }
       }
     ],
-    current_feed_index: null,
-    current_feed_length: 2
+    current_feed_index: null
+    // current_feed_length: 2
   },
   getters: {
     isAuthenticated: state => {
@@ -262,11 +266,11 @@ export default new Vuex.Store({
     },
     currentTrack: state => {
       if (state.current_feed_index != null) {
-        console.log(state.feed[state.current_feed_index]);
         return {
           name: state.feed[state.current_feed_index].track.name,
           id: state.feed[state.current_feed_index].track.id,
-          artist: state.feed[state.current_feed_index].track.artist
+          artist: state.feed[state.current_feed_index].track.artist,
+          user_name: state.feed[state.current_feed_index].user_name
         };
       } else {
         return {};
@@ -277,6 +281,19 @@ export default new Vuex.Store({
     },
     accessToken: state => {
       return state.access_token;
+    },
+    currentSentiment: state => {
+      if (state.current_feed_index == null) {
+        return 'none';
+      }
+
+      let sentiment_score =
+        state.feed[state.current_feed_index].track.sentiment_score;
+      if (sentiment_score >= 0.5) {
+        return 'happy';
+      } else {
+        return 'sad';
+      }
     }
   },
   mutations: {
@@ -312,7 +329,7 @@ export default new Vuex.Store({
     }
   },
   actions: {
-    login: ({ commit }, payload) => {
+    login: ({ commit, state }, payload) => {
       fetch(`${process.env.VUE_APP_SPOTIFY_API_URL}/v1/me`, {
         method: 'GET',
         headers: {
@@ -322,6 +339,21 @@ export default new Vuex.Store({
       })
         .then(response => response.json())
         .then(data => {
+          let body = JSON.stringify({
+            user_id: data.id,
+            user_name: data.display_name,
+            profile_pic_url: data.images[0].url,
+            auth_token: state.access_token
+          });
+          console.log(body);
+          fetch(`${process.env.VUE_APP_VIBE_API_URL}/api/users`, {
+            method: 'PUT',
+            body: body,
+            headers: {
+              'content-type': 'application/json'
+            }
+          }).then(response => response.json());
+
           payload.user_id = data.id;
           payload.user_name = data.display_name;
           commit('login', payload);
