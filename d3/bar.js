@@ -27,6 +27,8 @@ var svg = d3.select("body").append("svg")
     .attr("transform",
           "translate(" + margin.left + "," + margin.top + ")");
 
+var userFeed;
+
 d3.csv("valenceData.csv", function(error, data) {
 
     data.forEach(function(d) {
