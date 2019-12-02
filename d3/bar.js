@@ -9,12 +9,10 @@ async function makeAPICallNewsFeed(userId) {
   return myJson;
 }
 
-var request = new XMLHttpRequest();
-var userPlayListUrl = "http://vibe-web-api.herokuapp.com/api/users/12142455997/feed";
-var testURL = "http://api.plos.org/search?q=title:DNA";
-var requestUrl = userPlayListUrl; //adjust accordingly
-request.open('GET', requestUrl, true); //hardcoded for now
-request.send();
+
+function listSentimentFromJson(jsonResult) {
+
+}
 
 request.onreadystatechange = (e) => {
   // console.log(request.JSON); //Attempt 2: request.JSON - this gives undefined
@@ -22,7 +20,8 @@ request.onreadystatechange = (e) => {
 
 }
 
-makeAPICallNewsFeed();
+var jsonResult = makeAPICallNewsFeed();
+listSentimentFromJson(jsonResult);
 
 
 var margin = {top: 20, right: 20, bottom: 70, left: 40},
