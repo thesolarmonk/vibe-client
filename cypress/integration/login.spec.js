@@ -38,7 +38,7 @@ describe('Test feed Page', () => {
             .contains('days ago');
     });
 
-    it('check time display on post', () => {
+    it('check album art on post', () => {
         //check album picture display in post
         cy.get('.post--list')
             .children()
@@ -63,7 +63,9 @@ describe('Test feed Page', () => {
             .children()
             .children()
             .get('.button')
-            .should('be.visible');
+            .first()
+            .should('be.visible')
+            .click();
     });
 });
 
