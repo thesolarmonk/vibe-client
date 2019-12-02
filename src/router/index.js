@@ -28,7 +28,7 @@ const routes = [
           profile_pic_url: ''
         });
 
-        next('/feed');
+        next('/');
       } else if (store.state.user_id == null) {
         var vibe_auth_cookie = getCookie('vibe_auth');
 
@@ -53,23 +53,23 @@ const routes = [
   {
     path: '/feed',
     name: 'feed',
-    component: Feed,
-    beforeEnter: (to, from, next) => {
-      var vibe_auth_cookie = getCookie('vibe_auth');
+    component: Feed
+    // beforeEnter: (to, from, next) => {
+    //   var vibe_auth_cookie = getCookie('vibe_auth');
 
-      if (vibe_auth_cookie) {
-        let cookie = JSON.parse(vibe_auth_cookie);
+    //   if (vibe_auth_cookie) {
+    //     let cookie = JSON.parse(vibe_auth_cookie);
 
-        store.state.access_token = cookie.access_token;
-        store.state.user_id = cookie.user_id;
-        store.state.user_name = cookie.user_name;
-        store.state.profile_pic_url = cookie.profile_pic_url;
+    //     store.commit('login', {
+    //       access_token: cookie.access_token,
+    //       user_id: cookie.user_id,
+    //       user_name: cookie.user_name,
+    //       profile_pic_url: cookie.profile_pic_url
+    //     });
 
-        store.state.authenticated = true;
-
-        next();
-      }
-    }
+    //     next();
+    //   }
+    // }
   },
   {
     path: '/profile',
@@ -81,7 +81,7 @@ const routes = [
     name: 'add',
     component: Add
   },
-  { path: '*', redirect: '/' }
+  { path: '*', redirect: '/feed' }
 ];
 
 const router = new VueRouter({
