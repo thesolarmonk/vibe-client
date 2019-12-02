@@ -1,4 +1,15 @@
 
+function parseExtractedData(textFeed) {
+  //Find a way to convert text to json file to be useable.
+
+  //Attempt 1: JSON.parse()
+  // var obj = JSON.parse(textFeed);
+  // console.log(obj);
+  //---this gives unexpected token
+
+}
+
+
 var request = new XMLHttpRequest();
 var userPlayListUrl = "http://vibe-web-api.herokuapp.com/api/users/12142455997/feed";
 var testURL = "http://api.plos.org/search?q=title:DNA";
@@ -7,7 +18,9 @@ request.open('GET', requestUrl, true); //hardcoded for now
 request.send();
 
 request.onreadystatechange = (e) => {
-  console.log(request.responseText);
+  console.log(request.JSON); //Attempt 2: request.JSON - this gives undefined
+  parseExtractedData(request.responseText);
+
 }
 
 
