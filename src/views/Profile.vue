@@ -33,11 +33,13 @@
         </thead>
         <tbody>
           <tr v-for="(track, index) in sentiment_dataset" :key="index">
-            <td><strong v-html="track.track_name"></strong></td>
+            <td>
+              <strong v-html="track.track_name"></strong>
+            </td>
             <td v-html="track.artist_name"></td>
             <td>
               <span
-                v-html="track.sentiment_score"
+                v-html="Math.floor(track.sentiment_score * 100)"
                 class="post--sentiment tag"
                 :class="{
                   'is-info':
@@ -68,10 +70,10 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
+import { mapGetters } from "vuex";
 
-import Chart from '../components/Chart.vue';
-import TrackItem from '../components/Track.vue';
+import Chart from "../components/Chart.vue";
+import TrackItem from "../components/Track.vue";
 
 export default {
   components: {
@@ -85,15 +87,15 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(['getUserId', 'getUserName', 'accessToken', 'getProfilePic'])
+    ...mapGetters(["getUserId", "getUserName", "accessToken", "getProfilePic"])
   },
   mounted() {
     let url = `${process.env.VUE_APP_VIBE_API_URL}/api/users/${this.getUserId}/post/history`;
 
     fetch(url, {
-      method: 'GET',
+      method: "GET",
       headers: {
-        'content-type': 'application/json'
+        "content-type": "application/json"
       }
     })
       .then(response => response.json())
@@ -106,9 +108,9 @@ export default {
     url = `${process.env.VUE_APP_SPOTIFY_API_URL}/v1/me/top/tracks?time_range=medium_term&limit=${limit}`;
 
     fetch(url, {
-      method: 'GET',
+      method: "GET",
       headers: {
-        'content-type': 'application/json',
+        "content-type": "application/json",
         authorization: `Bearer ${this.accessToken}`
       }
     })
@@ -117,10 +119,10 @@ export default {
         url = `${process.env.VUE_APP_VIBE_API_URL}/api/sentiment/tracks`;
 
         fetch(url, {
-          method: 'POST',
+          method: "POST",
           body: JSON.stringify(data),
           headers: {
-            'content-type': 'application/json'
+            "content-type": "application/json"
           }
         })
           .then(response => response.json())

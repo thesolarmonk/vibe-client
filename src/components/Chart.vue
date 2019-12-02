@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import Chart from 'chart.js';
+import Chart from "chart.js";
 
 export default {
   props: {
@@ -26,14 +26,14 @@ export default {
         },
         title: {
           display: true,
-          text: 'Sentiment History (6-months)',
-          fontColor: '#ffffff',
+          text: "Sentiment Analysis of Top 50 Songs (last 6-months)",
+          fontColor: "#ffffff",
           padding: 20
         },
         legend: {
           display: true,
           labels: {
-            fontColor: '#ffffff',
+            fontColor: "#ffffff",
             padding: 20
           }
         },
@@ -45,10 +45,10 @@ export default {
   computed: {
     chart_data: function() {
       return {
-        labels: ['0-15', '15-30', '30-45', '45-100'],
+        labels: ["0-15", "15-30", "30-45", "45-100"],
         datasets: [
           {
-            backgroundColor: ['#00aeff', '#00ffc8', '#ffe600', '#ffae00'],
+            backgroundColor: ["#00aeff", "#00ffc8", "#ffe600", "#ffae00"],
             data: this.dataset
           }
         ]
@@ -81,14 +81,14 @@ export default {
   },
   watch: {
     chart_data: function() {
-      this.createChart('chart--sentiment', this.chart_data, this.options);
+      this.createChart("chart--sentiment", this.chart_data, this.options);
     }
   },
   methods: {
     createChart(chartId, chartData, options) {
       const ctx = document.getElementById(chartId);
       new Chart(ctx, {
-        type: 'pie',
+        type: "pie",
         data: chartData,
         options: options
       });
