@@ -6,23 +6,22 @@ async function makeAPICallNewsFeed(userId) {
   const response = await fetch('http://vibe-web-api.herokuapp.com/api/users/12142455997/feed');
   const myJson = await response.json();
   console.log(JSON.stringify(myJson));
+
   return myJson;
 }
 
 
 function listSentimentFromJson(jsonResult) {
+  var i = 1;
+  console.log(jsonResult[0]);
 
 }
 
-request.onreadystatechange = (e) => {
-  // console.log(request.JSON); //Attempt 2: request.JSON - this gives undefined
-  parseExtractedData(request.responseText);
-
-}
 
 var jsonResult = makeAPICallNewsFeed();
+console.log("reached here");
 listSentimentFromJson(jsonResult);
-
+console.log("finished function");
 
 var margin = {top: 20, right: 20, bottom: 70, left: 40},
     width = 600 - margin.left - margin.right,
