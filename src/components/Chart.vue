@@ -1,56 +1,105 @@
 <template>
-  <div class="d3">
-    <svg width="500" height="270">
-      <g style="transform: translate(0, 10px)">
-        <path :d="line" />
-      </g>
-    </svg>
+  <div class="chart">
+    <canvas id="chart--sentiment"></canvas>
   </div>
 </template>
 
 <script>
-import * as d3 from 'd3';
+import Chart from "chart.js";
 
 export default {
-  data() {
-    return {
-      data: [99, 71, 78, 25, 36, 92],
-      line: ''
-    };
-  },
-  methods: {
-    async fetchData() {},
-    getScales() {
-      const x = d3.scaleTime().range([0, 430]);
-      const y = d3.scaleLinear().range([210, 0]);
-      d3.axisLeft().scale(x);
-      d3.axisBottom().scale(y);
-      x.domain(d3.extent(this.data, (d, i) => i));
-      y.domain([0, d3.max(this.data, d => d)]);
-      return { x, y };
-    },
-    calculatePath() {
-      const scale = this.getScales();
-      const path = d3
-        .line()
-        .x((d, i) => scale.x(i))
-        .y(d => scale.y(d));
-      this.line = path(this.data);
+  props: {
+    track_data: {
+      default: null
     }
   },
-  mounted() {
-    this.calculatePath();
+  data() {
+    return {
+      options: {
+        layout: {
+          padding: {
+            left: 0,
+            right: 0,
+            top: 50,
+            bottom: 50
+          }
+        },
+        title: {
+          display: true,
+          text: "Sentiment Analysis of Top 50 Songs (last 6-months)",
+          fontColor: "#ffffff",
+          padding: 20
+        },
+        legend: {
+          display: true,
+          labels: {
+            fontColor: "#ffffff",
+            padding: 20
+          }
+        },
+        cutoutPercentage: 40,
+        responsive: true
+      }
+    };
+  },
+  computed: {
+    chart_data: function() {
+      return {
+        labels: ["0-15", "15-30", "30-45", "45-100"],
+        datasets: [
+          {
+            backgroundColor: ["#00aeff", "#00ffc8", "#ffe600", "#ffae00"],
+            data: this.dataset
+          }
+        ]
+      };
+    },
+    dataset: function() {
+      let sentiment_groups = [0, 0, 0, 0];
+
+      if (this.track_data != null) {
+        for (let i = 0; i < this.track_data.length; i++) {
+          let sentiment_score = Math.floor(
+            this.track_data[i].sentiment_score * 100
+          );
+          if (sentiment_score < 15) {
+            sentiment_groups[0]++;
+          } else if (sentiment_score >= 15 && sentiment_score < 30) {
+            sentiment_groups[1]++;
+          } else if (sentiment_score >= 30 && sentiment_score < 50) {
+            sentiment_groups[2]++;
+          } else if (sentiment_score >= 50) {
+            sentiment_groups[3]++;
+          }
+        }
+      }
+
+      console.log(sentiment_groups);
+
+      return sentiment_groups;
+    }
+  },
+  watch: {
+    chart_data: function() {
+      this.createChart("chart--sentiment", this.chart_data, this.options);
+    }
+  },
+  methods: {
+    createChart(chartId, chartData, options) {
+      const ctx = document.getElementById(chartId);
+      new Chart(ctx, {
+        type: "pie",
+        data: chartData,
+        options: options
+      });
+    }
   }
 };
 </script>
 
 <style>
-svg {
-  margin: 25px;
-}
-path {
-  fill: none;
-  stroke: #76bf8a;
-  stroke-width: 3px;
+.chart {
+  width: 100%;
+  height: 55%;
 }
 </style>

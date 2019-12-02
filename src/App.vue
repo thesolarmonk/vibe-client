@@ -8,25 +8,25 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
-import { mapActions } from 'vuex';
+import { mapGetters } from "vuex";
+import { mapActions } from "vuex";
 
-import Player from './components/Player.vue';
+import Player from "./components/Player.vue";
 
 export default {
-  name: 'app',
+  name: "app",
   computed: {
-    ...mapGetters(['isAuthenticated', 'isPlaying', 'currentSentiment'])
+    ...mapGetters(["isAuthenticated", "isPlaying", "currentSentiment"])
   },
   methods: {
-    ...mapActions(['play', 'pause'])
+    ...mapActions(["play", "pause"])
   },
   components: {
     Player
   },
   mounted() {
     var that = this;
-    window.addEventListener('keydown', function(event) {
+    window.addEventListener("keydown", function(event) {
       if (event.keyCode == 32) {
         event.preventDefault();
         if (that.isPlaying) {
@@ -41,24 +41,24 @@ export default {
 </script>
 
 <style lang="scss">
-@import './styles/_reset.scss';
+@import "./styles/_reset.scss";
 
-@import url('https://rsms.me/inter/inter.css');
+@import url("https://rsms.me/inter/inter.css");
 html {
-  font-family: 'Inter', sans-serif;
+  font-family: "Inter", sans-serif;
 }
 @supports (font-variation-settings: normal) {
   html {
-    font-family: 'Inter var', sans-serif;
+    font-family: "Inter var", sans-serif;
   }
 }
 
 @font-face {
-  font-family: 'Marvin Visions';
-  src: url('./assets/fonts/marvin-visions.woff2') format('woff2');
+  font-family: "Marvin Visions";
+  src: url("./assets/fonts/marvin-visions.woff2") format("woff2");
 }
 
-@import '~bulma/sass/utilities/_all';
+@import "~bulma/sass/utilities/_all";
 
 // Set your colors
 $scheme-main: #000;
@@ -66,14 +66,14 @@ $text: #fff;
 $text-strong: #fff;
 $weight-semibold: 800;
 
-$family-primary: 'Inter', sans-serif;
+$family-primary: "Inter", sans-serif;
 $family-sans-serif: $family-primary;
 
 $box-radius: 15px;
 
 // Import Bulma and Buefy styles
-@import '~bulma';
-@import '~buefy/src/scss/buefy';
+@import "~bulma";
+@import "~buefy/src/scss/buefy";
 
 html,
 body {
@@ -132,5 +132,9 @@ body {
 
 .mood-4 {
   background-color: #ffae00;
+}
+
+.is-danger {
+  background-color: #e28800 !important;
 }
 </style>

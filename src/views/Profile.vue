@@ -22,33 +22,40 @@
       </div>
     </div>
     <div class="profile-container profile--graphs">
-      <!-- <template>
-        <b-carousel
-          v-model="carousel"
-          :animated="slide"
-          :autoplay="false"
-          :pause-hover="true"
-          :pause-info="true"
-          :interval="3000"
-          :arrow="true"
-          :arrow-both="false"
-          :icon-pack="fas"
-          :icon-size="is-large"
-          :indicator-style="is-lines"
-        >
-          <b-carousel-item>
-            <section class="graph">
-              <h1 class="title">Graph 1</h1>
-            </section>
-          </b-carousel-item>
-          <b-carousel-item>
-            <section class="graph">
-              <h1 class="title">Graph 2</h1>
-            </section>
-          </b-carousel-item>
-        </b-carousel>
-      </template>-->
-      <!-- <chart></chart> -->
+      <chart :track_data="sentiment_dataset"></chart>
+      <table class="table profile--graphs-table">
+        <thead>
+          <tr>
+            <th>Song</th>
+            <th>Artist</th>
+            <th>Sentiment</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="(track, index) in sentiment_dataset" :key="index">
+            <td>
+              <strong v-html="track.track_name"></strong>
+            </td>
+            <td v-html="track.artist_name"></td>
+            <td>
+              <span
+                v-html="Math.floor(track.sentiment_score * 100)"
+                class="post--sentiment tag"
+                :class="{
+                  'is-info':
+                    track.sentiment_score < 0.15 && track.sentiment_score >= 0,
+                  'is-primary':
+                    track.sentiment_score < 0.3 &&
+                    track.sentiment_score >= 0.15,
+                  'is-warning':
+                    track.sentiment_score < 0.5 && track.sentiment_score >= 0.3,
+                  'is-danger': track.sentiment_score >= 0.5
+                }"
+              ></span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
     </div>
     <div class="profile-container profile--posts-list">
       <track-item
@@ -63,31 +70,32 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
+import { mapGetters } from "vuex";
 
-// import Chart from '../components/Chart.vue';
-import TrackItem from '../components/Track.vue';
+import Chart from "../components/Chart.vue";
+import TrackItem from "../components/Track.vue";
 
 export default {
   components: {
-    // Chart,
+    Chart,
     TrackItem
   },
   data() {
     return {
-      recently_posted_tracks: 0
+      recently_posted_tracks: 0,
+      sentiment_dataset: {}
     };
   },
   computed: {
-    ...mapGetters(['getUserId', 'getUserName', 'accessToken', 'getProfilePic'])
+    ...mapGetters(["getUserId", "getUserName", "accessToken", "getProfilePic"])
   },
   mounted() {
     let url = `${process.env.VUE_APP_VIBE_API_URL}/api/users/${this.getUserId}/post/history`;
 
     fetch(url, {
-      method: 'GET',
+      method: "GET",
       headers: {
-        'content-type': 'application/json'
+        "content-type": "application/json"
       }
     })
       .then(response => response.json())
@@ -100,9 +108,9 @@ export default {
     url = `${process.env.VUE_APP_SPOTIFY_API_URL}/v1/me/top/tracks?time_range=medium_term&limit=${limit}`;
 
     fetch(url, {
-      method: 'GET',
+      method: "GET",
       headers: {
-        'content-type': 'application/json',
+        "content-type": "application/json",
         authorization: `Bearer ${this.accessToken}`
       }
     })
@@ -111,14 +119,14 @@ export default {
         url = `${process.env.VUE_APP_VIBE_API_URL}/api/sentiment/tracks`;
 
         fetch(url, {
-          method: 'POST',
+          method: "POST",
           body: JSON.stringify(data),
           headers: {
-            'content-type': 'application/json'
+            "content-type": "application/json"
           }
         })
           .then(response => response.json())
-          .then(data => console.log(data))
+          .then(data => (this.sentiment_dataset = data))
           .catch(err => {
             console.log(err);
           });
@@ -179,6 +187,13 @@ export default {
 
   background-color: rgba(0, 0, 0, 0.5);
   border: 1px solid #ffffff;
+
+  overflow-x: scroll;
+}
+
+.profile--graphs-table {
+  width: 90% !important;
+  margin: 0px auto;
 }
 
 .carousel,

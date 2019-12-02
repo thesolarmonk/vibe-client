@@ -2,11 +2,7 @@
   <div class="card user">
     <div class="card-image">
       <figure class="image is-3by3">
-        <img
-          class="user--profile-pic"
-          :src="profilePicUrl"
-          alt="Placeholder image"
-        />
+        <img class="user--profile-pic" :src="profilePicUrl" alt="Placeholder image" />
       </figure>
     </div>
     <div class="card-content">
@@ -29,17 +25,17 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
+import { mapGetters } from "vuex";
 
 export default {
-  props: ['user_data'],
+  props: ["user_data"],
   data() {
     return {
       added: false
     };
   },
   computed: {
-    ...mapGetters(['getUserId']),
+    ...mapGetters(["getUserId"]),
     profilePicUrl() {
       return this.user_data.profile_pic_url;
     },
@@ -55,14 +51,14 @@ export default {
       let url = `${process.env.VUE_APP_VIBE_API_URL}/api/users/${this.getUserId}/friends/${this.userId}`;
 
       fetch(url, {
-        method: 'POST',
+        method: "POST",
         headers: {
-          'content-type': 'application/json'
+          "content-type": "application/json"
         }
       })
         .then(response => {
-          if (response.status == 200) {
-            console.log('Friend added successfully');
+          if (response.status == 201) {
+            console.log("Friend added successfully");
             this.added = true;
           }
         })
