@@ -114,15 +114,23 @@ body {
   transition: background-color 10000ms linear;
 }
 
-.none {
+.mood-0 {
   background-color: rgb(85, 85, 85);
 }
 
-.happy {
+.mood-1 {
+  background-color: #00aeff;
+}
+
+.mood-2 {
+  background-color: #00ffc8;
+}
+
+.mood-3 {
   background-color: #ffe600;
 }
 
-.sad {
-  background-color: #00aeff;
+.mood-4 {
+  background-color: #ffae00;
 }
 </style>

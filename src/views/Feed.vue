@@ -7,7 +7,7 @@
         :post_data="post"
         :index="index"
         :class="{ playing: index == currentFeedIndex }"
-        :id="post.track.id"
+        :id="post.track.track_id"
       ></post>
     </div>
   </div>
@@ -15,6 +15,7 @@
 
 <script>
 import { mapGetters } from 'vuex';
+import { mapMutations } from 'vuex';
 
 import Post from '../components/Post.vue';
 
@@ -24,20 +25,24 @@ export default {
     Post
   },
   computed: {
-    ...mapGetters(['feed', 'currentFeedIndex', 'currentSentiment'])
+    ...mapGetters(['feed', 'currentFeedIndex', 'currentSentiment', 'getUserId'])
+  },
+  methods: {
+    ...mapMutations(['setFeed'])
   },
   mounted() {
-    // let url = `${process.env.VUE_APP_VIBE_API_URL}/api/users/${getUserId}/getNewsFeed`;
-    // fetch(url, {
-    //   method: "GET",
-    //   headers: {
-    //     "content-type": "application/json"
-    //   }
-    // })
-    //   .then(response => this.feed = response.feed)
-    //   .catch(err => {
-    //     console.log(err);
-    //   });
+    let url = `${process.env.VUE_APP_VIBE_API_URL}/api/users/${this.getUserId}/feed`;
+    fetch(url, {
+      method: 'GET',
+      headers: {
+        'content-type': 'application/json'
+      }
+    })
+      .then(response => response.json())
+      .then(data => this.setFeed(data))
+      .catch(err => {
+        console.log(err);
+      });
   }
 };
 </script>

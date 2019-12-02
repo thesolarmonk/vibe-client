@@ -1,8 +1,18 @@
 <template>
   <div class="box post">
     <h6 class="post--user_name title is-6">Shared by {{ user_name }}</h6>
+    <h6 class="post--divider">&nbsp;•&nbsp;</h6>
     <h6 class="post--time title is-6">{{ date_posted }}</h6>
-    <!-- • Sentiment: {{ sentiment_score }} -->
+    <span
+      class="post--sentiment tag"
+      :class="{
+        'is-info': sentiment_score < 15 && sentiment_score >= 0,
+        'is-primary': sentiment_score < 30 && sentiment_score >= 15,
+        'is-warning': sentiment_score < 50 && sentiment_score >= 30,
+        'is-danger': sentiment_score >= 50
+      }"
+      >{{ sentiment_score }}</span
+    >
     <track-item
       class="post--track"
       v-bind:track_data="post_data.track"
@@ -26,10 +36,10 @@ export default {
   },
   computed: {
     user_name() {
-      return this.post_data.user_name;
+      return this.post_data.user.user_name;
     },
     sentiment_score() {
-      return this.post_data.track.sentiment_score;
+      return Math.floor(this.post_data.track.sentiment_score * 100);
     },
     date_posted() {
       let datePosted = this.post_data.date_posted;
@@ -64,10 +74,28 @@ export default {
 }
 
 .post--user_name {
-  float: left;
+  // float: left;
+  display: inline;
+  margin-bottom: 20px;
 }
 
 .post--time {
+  // float: right;
+  display: inline;
+  margin-bottom: 20px;
+
+  color: #888 !important;
+}
+
+.post--sentiment {
   float: right;
+  margin-bottom: 20px;
+}
+
+.post--divider {
+  display: inline;
+  letter-spacing: 5px;
+
+  // color: #555;
 }
 </style>

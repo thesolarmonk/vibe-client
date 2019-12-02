@@ -1,7 +1,7 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
 import store from '../store/index.js';
-import { setCookie, getCookie } from '../js/helper.js';
+import { getCookie } from '../js/helper.js';
 
 import Login from '../views/Login.vue';
 import Feed from '../views/Feed.vue';
@@ -21,19 +21,29 @@ const routes = [
         let stringEnd = hash.indexOf('&');
         let access_token = hash.substring(14, stringEnd);
 
-        store.commit('login', access_token);
+        store.dispatch('login', {
+          access_token: access_token,
+          user_id: '',
+          user_name: '',
+          profile_pic_url: ''
+        });
 
-        setCookie('vibe_auth', access_token, 0.041666667);
-        next('/');
-      } else {
+        next('/feed');
+      } else if (store.state.user_id == null) {
         var vibe_auth_cookie = getCookie('vibe_auth');
 
         if (vibe_auth_cookie) {
-          store.dispatch('login', {
-            access_token: vibe_auth_cookie,
-            user_id: '',
-            user_name: ''
-          });
+          let cookie = JSON.parse(vibe_auth_cookie);
+
+          store.state.access_token = cookie.access_token;
+          store.state.user_id = cookie.user_id;
+          store.state.user_name = cookie.user_name;
+          store.state.profile_pic_url = cookie.profile_pic_url;
+
+          store.state.authenticated = true;
+
+          next('/feed');
+        } else {
           next('/feed');
         }
       }
@@ -48,13 +58,17 @@ const routes = [
       var vibe_auth_cookie = getCookie('vibe_auth');
 
       if (vibe_auth_cookie) {
-        store.dispatch('login', {
-          access_token: vibe_auth_cookie,
-          user_id: '',
-          user_name: ''
-        });
+        let cookie = JSON.parse(vibe_auth_cookie);
+
+        store.state.access_token = cookie.access_token;
+        store.state.user_id = cookie.user_id;
+        store.state.user_name = cookie.user_name;
+        store.state.profile_pic_url = cookie.profile_pic_url;
+
+        store.state.authenticated = true;
+
+        next();
       }
-      next();
     }
   },
   {
