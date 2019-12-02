@@ -5,24 +5,22 @@ function handleResponse(json) {
 
   //now I have the json.
 
-//get song list
-var i = 0;
-var tracks = [];
-var track
-
-var track_sentiment_dict = {};
-for (i = 0 ; i < json.length; i ++) {
-  console.log(json[i]['track']['track_name']);
-  tracks.push(json[i]['track']['track_name']);
-  tracks.push(json[i]['track']['sentiment_score']);
-}
-console.log(tracks);
-console.log(json[2]);
-//get sentiment list
+  //get song list
+  var i = 0;
+  var tracks = [];
 
 
+  var track_sentiment_dict = {};
+  for (i = 0 ; i < json.length; i ++) {
+    console.log(json[i]['track']['track_name']);
+    var songTitle = json[i]['track']['track_name'];
+    var songSentiment = json[i]['track']['sentiment_score'];
+    track_sentiment_dict[songTitle] = songSentiment;
+    tracks.push(json[i]['track']['track_name']);
+    tracks.push(json[i]['track']['sentiment_score']);
+  }
+  console.log(track_sentiment_dict);
 
-  console.log(json[0]);
 }
 
 
@@ -32,9 +30,7 @@ async function makeAPICallNewsFeed(userId) {
     .then(response => response.json())
     .then(handleResponse);
 
-  console.log(JSON.stringify(myJson));
-  // console.log("hi: ", myJson[0]);
-  return JSON.stringify(myJson);
+
 }
 
 
