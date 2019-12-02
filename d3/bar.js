@@ -20,7 +20,7 @@ function handleResponse(json) {
     tracks.push(json[i]['track']['sentiment_score']);
   }
   console.log(track_sentiment_dict);
-
+  return track_sentiment_dict;
 }
 
 
