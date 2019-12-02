@@ -22,7 +22,25 @@
       </div>
     </div>
     <div class="profile-container profile--graphs">
-      <chart :track_data="sentiment_dataset"></chart>
+      <chart
+        :track_data="sentiment_dataset"
+        :data_time_frame="time_frame_to_name[data_time_frame]"
+      ></chart>
+      <b-dropdown aria-role="list" v-model="data_time_frame" id="time_range">
+        <button class="button is-primary" slot="trigger">
+          <span>Time range</span>
+          <b-icon icon="menu-down"></b-icon>
+        </button>
+        <b-dropdown-item aria-role="listitem" value="short_term"
+          >Last 4 weeks</b-dropdown-item
+        >
+        <b-dropdown-item aria-role="listitem" value="medium_term"
+          >Last 6 months</b-dropdown-item
+        >
+        <b-dropdown-item aria-role="listitem" value="long_term"
+          >All time</b-dropdown-item
+        >
+      </b-dropdown>
       <table class="table profile--graphs-table">
         <thead>
           <tr>
@@ -83,57 +101,74 @@ export default {
   data() {
     return {
       recently_posted_tracks: 0,
-      sentiment_dataset: {}
+      sentiment_dataset: {},
+      data_time_frame: "medium_term",
+      time_frame_to_name: {
+        short_term: "Last 4 weeks",
+        medium_term: "Last 6 months",
+        long_term: "All time"
+      }
     };
   },
   computed: {
     ...mapGetters(["getUserId", "getUserName", "accessToken", "getProfilePic"])
   },
-  mounted() {
-    let url = `${process.env.VUE_APP_VIBE_API_URL}/api/users/${this.getUserId}/post/history`;
+  methods: {
+    get_chart_data: function() {
+      let url = `${process.env.VUE_APP_VIBE_API_URL}/api/users/${this.getUserId}/post/history`;
 
-    fetch(url, {
-      method: "GET",
-      headers: {
-        "content-type": "application/json"
-      }
-    })
-      .then(response => response.json())
-      .then(data => (this.recently_posted_tracks = data))
-      .catch(err => {
-        console.log(err);
-      });
-
-    let limit = 100;
-    url = `${process.env.VUE_APP_SPOTIFY_API_URL}/v1/me/top/tracks?time_range=medium_term&limit=${limit}`;
-
-    fetch(url, {
-      method: "GET",
-      headers: {
-        "content-type": "application/json",
-        authorization: `Bearer ${this.accessToken}`
-      }
-    })
-      .then(response => response.json())
-      .then(data => {
-        url = `${process.env.VUE_APP_VIBE_API_URL}/api/sentiment/tracks`;
-
-        fetch(url, {
-          method: "POST",
-          body: JSON.stringify(data),
-          headers: {
-            "content-type": "application/json"
-          }
-        })
-          .then(response => response.json())
-          .then(data => (this.sentiment_dataset = data))
-          .catch(err => {
-            console.log(err);
-          });
+      fetch(url, {
+        method: "GET",
+        headers: {
+          "content-type": "application/json"
+        }
       })
-      .catch(err => {
-        console.log(err);
-      });
+        .then(response => response.json())
+        .then(data => (this.recently_posted_tracks = data))
+        .catch(err => {
+          console.log(err);
+        });
+
+      let limit = 100;
+      console.log(this.data_time_frame);
+      url = `${process.env.VUE_APP_SPOTIFY_API_URL}/v1/me/top/tracks?time_range=${this.data_time_frame}&limit=${limit}`;
+
+      fetch(url, {
+        method: "GET",
+        headers: {
+          "content-type": "application/json",
+          authorization: `Bearer ${this.accessToken}`
+        }
+      })
+        .then(response => response.json())
+        .then(data => {
+          url = `${process.env.VUE_APP_VIBE_API_URL}/api/sentiment/tracks`;
+
+          fetch(url, {
+            method: "POST",
+            body: JSON.stringify(data),
+            headers: {
+              "content-type": "application/json"
+            }
+          })
+            .then(response => response.json())
+            .then(data => (this.sentiment_dataset = data))
+            .catch(err => {
+              console.log(err);
+            });
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    }
+  },
+  mounted() {
+    this.get_chart_data();
+  },
+  watch: {
+    data_time_frame: function() {
+      this.get_chart_data();
+    }
   }
 };
 </script>
@@ -211,5 +246,10 @@ export default {
 
 .profile--posts-list::-webkit-scrollbar {
   display: none;
+}
+
+#time_range {
+  margin-left: 2em;
+  margin-bottom: 2em;
 }
 </style>

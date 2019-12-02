@@ -11,10 +11,14 @@ export default {
   props: {
     track_data: {
       default: null
+    },
+    data_time_frame: {
+      default: "Last 6 months"
     }
   },
   data() {
     return {
+      chart: null,
       options: {
         layout: {
           padding: {
@@ -26,7 +30,7 @@ export default {
         },
         title: {
           display: true,
-          text: "Sentiment Analysis of Top 50 Songs (last 6-months)",
+          text: `Sentiment Analysis of Top 50 Songs: ${this.data_time_frame}`,
           fontColor: "#ffffff",
           padding: 20
         },
@@ -81,17 +85,24 @@ export default {
   },
   watch: {
     chart_data: function() {
-      this.createChart("chart--sentiment", this.chart_data, this.options);
+      this.updateChart("chart--sentiment", this.chart_data, this.options);
+    },
+    data_time_frame: function() {
+      this.options.title.text = `Sentiment Analysis of Top 50 Songs: ${this.data_time_frame}`;
     }
   },
   methods: {
     createChart(chartId, chartData, options) {
       const ctx = document.getElementById(chartId);
-      new Chart(ctx, {
+      this.chart = new Chart(ctx, {
         type: "pie",
         data: chartData,
         options: options
       });
+    },
+    updateChart() {
+      if (this.chart) this.chart.destroy();
+      this.createChart("chart--sentiment", this.chart_data, this.options);
     }
   }
 };
