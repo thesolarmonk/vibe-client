@@ -28,21 +28,24 @@ export default {
     ...mapGetters(['feed', 'currentFeedIndex', 'currentSentiment', 'getUserId'])
   },
   methods: {
-    ...mapMutations(['setFeed'])
+    ...mapMutations(['setFeed']),
+    fetchFeed() {
+      let url = `${process.env.VUE_APP_VIBE_API_URL}/api/users/${this.getUserId}/feed`;
+      fetch(url, {
+        method: 'GET',
+        headers: {
+          'content-type': 'application/json'
+        }
+      })
+        .then(response => response.json())
+        .then(data => this.setFeed(data))
+        .catch(err => {
+          console.log(err);
+        });
+    }
   },
   mounted() {
-    let url = `${process.env.VUE_APP_VIBE_API_URL}/api/users/${this.getUserId}/feed`;
-    fetch(url, {
-      method: 'GET',
-      headers: {
-        'content-type': 'application/json'
-      }
-    })
-      .then(response => response.json())
-      .then(data => this.setFeed(data))
-      .catch(err => {
-        console.log(err);
-      });
+    this.fetchFeed();
   }
 };
 </script>
