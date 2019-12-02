@@ -5,6 +5,23 @@ function handleResponse(json) {
 
   //now I have the json.
 
+//get song list
+var i = 0;
+var tracks = [];
+var track
+
+var track_sentiment_dict = {};
+for (i = 0 ; i < json.length; i ++) {
+  console.log(json[i]['track']['track_name']);
+  tracks.push(json[i]['track']['track_name']);
+  tracks.push(json[i]['track']['sentiment_score']);
+}
+console.log(tracks);
+console.log(json[2]);
+//get sentiment list
+
+
+
   console.log(json[0]);
 }
 
