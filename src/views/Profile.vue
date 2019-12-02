@@ -22,24 +22,15 @@
       </div>
     </div>
     <div class="profile-container profile--graphs">
-      <chart
-        :track_data="sentiment_dataset"
-        :data_time_frame="time_frame_to_name[data_time_frame]"
-      ></chart>
+      <chart :track_data="sentiment_dataset" :data_time_frame="time_frame_to_name[data_time_frame]"></chart>
       <b-dropdown aria-role="list" v-model="data_time_frame" id="time_range">
         <button class="button is-primary" slot="trigger">
           <span>Time range</span>
           <b-icon icon="menu-down"></b-icon>
         </button>
-        <b-dropdown-item aria-role="listitem" value="short_term"
-          >Last 4 weeks</b-dropdown-item
-        >
-        <b-dropdown-item aria-role="listitem" value="medium_term"
-          >Last 6 months</b-dropdown-item
-        >
-        <b-dropdown-item aria-role="listitem" value="long_term"
-          >All time</b-dropdown-item
-        >
+        <b-dropdown-item aria-role="listitem" value="short_term">Last 4 weeks</b-dropdown-item>
+        <b-dropdown-item aria-role="listitem" value="medium_term">Last 6 months</b-dropdown-item>
+        <b-dropdown-item aria-role="listitem" value="long_term">All time</b-dropdown-item>
       </b-dropdown>
       <table class="table profile--graphs-table">
         <thead>

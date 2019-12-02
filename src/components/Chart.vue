@@ -32,13 +32,16 @@ export default {
           display: true,
           text: `Sentiment Analysis of Top 50 Songs: ${this.data_time_frame}`,
           fontColor: "#ffffff",
-          padding: 20
+          padding: 20,
+          fontSize: 24,
+          fontFamily: "Inter"
         },
         legend: {
           display: true,
           labels: {
             fontColor: "#ffffff",
-            padding: 20
+            padding: 20,
+            fontFamily: "Inter"
           }
         },
         cutoutPercentage: 40,
