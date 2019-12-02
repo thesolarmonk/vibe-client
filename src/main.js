@@ -7,7 +7,7 @@ import Buefy from 'buefy';
 Vue.use(Buefy);
 
 // import './../node_modules/bulma/css/bulma.css';
-Vue.config.productionTip = false;
+Vue.config.productionTip = true;
 
 new Vue({
   router,
