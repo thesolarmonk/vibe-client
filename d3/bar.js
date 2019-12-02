@@ -1,4 +1,16 @@
 
+var request = new XMLHttpRequest();
+var userPlayListUrl = "http://vibe-web-api.herokuapp.com/api/users/12142455997/feed";
+var testURL = "http://api.plos.org/search?q=title:DNA";
+var requestUrl = userPlayListUrl; //adjust accordingly
+request.open('GET', requestUrl, true); //hardcoded for now
+request.send();
+
+request.onreadystatechange = (e) => {
+  console.log(request.responseText);
+}
+
+
 var margin = {top: 20, right: 20, bottom: 70, left: 40},
     width = 600 - margin.left - margin.right,
     height = 300 - margin.top - margin.bottom;
