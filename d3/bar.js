@@ -1,27 +1,30 @@
 
 
+function handleResponse(json) {
+  console.log(json);
+
+  //now I have the json.
+
+  console.log(json[0]);
+}
+
 
 async function makeAPICallNewsFeed(userId) {
   //delbierarely unused user id
-  const response = await fetch('http://vibe-web-api.herokuapp.com/api/users/12142455997/feed');
-  const myJson = await response.json();
+  const response = await fetch('http://vibe-web-api.herokuapp.com/api/users/12142455997/feed')
+    .then(response => response.json())
+    .then(handleResponse);
+
   console.log(JSON.stringify(myJson));
-
-  return myJson;
+  // console.log("hi: ", myJson[0]);
+  return JSON.stringify(myJson);
 }
 
 
-function listSentimentFromJson(jsonResult) {
-  var i = 1;
-  console.log(jsonResult[0]);
-
-}
 
 
 var jsonResult = makeAPICallNewsFeed();
-console.log("reached here");
-listSentimentFromJson(jsonResult);
-console.log("finished function");
+
 
 var margin = {top: 20, right: 20, bottom: 70, left: 40},
     width = 600 - margin.left - margin.right,
