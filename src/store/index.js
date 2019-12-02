@@ -291,15 +291,20 @@ export default new Vuex.Store({
     },
     currentSentiment: state => {
       if (state.current_feed_index == null) {
-        return 'none';
+        return 'mood-0';
       }
 
-      let sentiment_score =
-        state.feed[state.current_feed_index].track.sentiment_score;
-      if (sentiment_score >= 0.35) {
-        return 'happy';
-      } else {
-        return 'sad';
+      let sentiment_score = Math.floor(
+        state.feed[state.current_feed_index].track.sentiment_score * 100
+      );
+      if (sentiment_score < 15) {
+        return 'mood-1';
+      } else if (sentiment_score >= 15 && sentiment_score < 30) {
+        return 'mood-2';
+      } else if (sentiment_score >= 30 && sentiment_score < 50) {
+        return 'mood-3';
+      } else if (sentiment_score >= 50) {
+        return 'mood-4';
       }
     }
   },

@@ -95,6 +95,37 @@ export default {
       .catch(err => {
         console.log(err);
       });
+
+    let limit = 100;
+    url = `${process.env.VUE_APP_SPOTIFY_API_URL}/v1/me/top/tracks?time_range=medium_term&limit=${limit}`;
+
+    fetch(url, {
+      method: 'GET',
+      headers: {
+        'content-type': 'application/json',
+        authorization: `Bearer ${this.accessToken}`
+      }
+    })
+      .then(response => response.json())
+      .then(data => {
+        url = `${process.env.VUE_APP_VIBE_API_URL}/api/sentiment/tracks`;
+
+        fetch(url, {
+          method: 'POST',
+          body: JSON.stringify(data),
+          headers: {
+            'content-type': 'application/json'
+          }
+        })
+          .then(response => response.json())
+          .then(data => console.log(data))
+          .catch(err => {
+            console.log(err);
+          });
+      })
+      .catch(err => {
+        console.log(err);
+      });
   }
 };
 </script>

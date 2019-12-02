@@ -3,10 +3,16 @@
     <h6 class="post--user_name title is-6">Shared by {{ user_name }}</h6>
     <h6 class="post--divider">&nbsp;•&nbsp;</h6>
     <h6 class="post--time title is-6">{{ date_posted }}</h6>
-    <span v-if="sentiment_score >= 0.35" class="post--sentiment tag is-warning"
-      >happy</span
+    <span
+      class="post--sentiment tag"
+      :class="{
+        'is-info': sentiment_score < 15 && sentiment_score >= 0,
+        'is-primary': sentiment_score < 30 && sentiment_score >= 15,
+        'is-warning': sentiment_score < 50 && sentiment_score >= 30,
+        'is-danger': sentiment_score >= 50
+      }"
+      >{{ sentiment_score }}</span
     >
-    <span v-else class="post--sentiment tag is-info">sad</span>
     <track-item
       class="post--track"
       v-bind:track_data="post_data.track"
@@ -33,7 +39,7 @@ export default {
       return this.post_data.user.user_name;
     },
     sentiment_score() {
-      return this.post_data.track.sentiment_score;
+      return Math.floor(this.post_data.track.sentiment_score * 100);
     },
     date_posted() {
       let datePosted = this.post_data.date_posted;
