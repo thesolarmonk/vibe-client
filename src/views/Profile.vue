@@ -1,17 +1,14 @@
 <template>
   <div class="profile">
     <div class="profile-container profile--user-info">
-      <img
-        class="profile--user-info-picture"
-        src="https://deposify.com/wp-content/uploads/2016/07/footer-gradient-circle.png"
-      />
-      <div class="container has-text-centered">
+      <img class="profile--user-info-picture" :src="getProfilePic" />
+      <div class="profile--user-info-name container has-text-centered">
         <h5 class="title is-5 profile--user-info-name">{{ getUserName }}</h5>
         <span class="tag is-light profile--user-info-id">@{{ getUserId }}</span>
       </div>
       <div class="profile--user-info-stats">
         <div class="container has-text-centered stats">
-          <h4 class="title is-4 is-uppercase">100</h4>
+          <h4 class="title is-4 is-uppercase">4</h4>
           <h4 class="subtitle is-4">Friends</h4>
         </div>
         <div class="container has-text-centered stats">
@@ -51,13 +48,13 @@
           </b-carousel-item>
         </b-carousel>
       </template>-->
-      <chart></chart>
+      <!-- <chart></chart> -->
     </div>
     <div class="profile-container profile--posts-list">
       <track-item
-        v-for="track in recently_posted_tracks"
-        :key="track.track.id"
-        :track_data="track.track"
+        v-for="(post, index) in recently_posted_tracks"
+        :key="index"
+        :track_data="post.track"
         :isProfile="true"
         class="track"
       ></track-item>
@@ -68,12 +65,12 @@
 <script>
 import { mapGetters } from 'vuex';
 
-import Chart from '../components/Chart.vue';
+// import Chart from '../components/Chart.vue';
 import TrackItem from '../components/Track.vue';
 
 export default {
   components: {
-    Chart,
+    // Chart,
     TrackItem
   },
   data() {
@@ -82,20 +79,19 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(['getUserId', 'getUserName', 'accessToken'])
+    ...mapGetters(['getUserId', 'getUserName', 'accessToken', 'getProfilePic'])
   },
   mounted() {
-    let url = `${process.env.VUE_APP_SPOTIFY_API_URL}/v1/me/player/recently-played?limit=12`;
+    let url = `${process.env.VUE_APP_VIBE_API_URL}/api/users/${this.getUserId}/post/history`;
 
     fetch(url, {
       method: 'GET',
       headers: {
-        'content-type': 'application/json',
-        authorization: `Bearer ${this.accessToken}`
+        'content-type': 'application/json'
       }
     })
       .then(response => response.json())
-      .then(data => (this.recently_posted_tracks = data.items))
+      .then(data => (this.recently_posted_tracks = data))
       .catch(err => {
         console.log(err);
       });
@@ -128,9 +124,13 @@ export default {
 
 .profile--user-info-picture {
   /* border: 2px dashed white; */
-  border-radius: 10000px;
+  border-radius: 250000px;
 
   padding: 30px 35px 10px 35px;
+}
+
+.profile--user-info-name {
+  margin: 10px 0px !important;
 }
 
 .profile--user-info-id {

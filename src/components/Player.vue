@@ -116,14 +116,14 @@ export default {
       // Playback status updates
       this.$store.state.player.addListener("player_state_changed", state => {
         // console.log(state);
-        // console.log(state.track_window.current_track);
+        console.log(state.track_window.current_track);
         this.setCurrentFeedIndex(state.track_window.current_track.id);
         if (state.paused) {
           this.setPause();
         } else {
           this.setPlay();
 
-          if (state.position < 1500) {
+          if (state.position < 2000) {
             this.showCurrent();
           }
         }

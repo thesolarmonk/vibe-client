@@ -29,11 +29,9 @@
             </span>
           </a>
           <a v-else v-show="!isProfile" class="button is-black track--post-new">
-            <span class="icon is-large" @click="postTrack(trackId)">
-              <i
-                class="fas fa-plus-circle"
-                :class="{ 'fa-3x': isFeed, 'fa-2x': !isFeed }"
-              ></i>
+            <span class="icon is-large" @click="postTrack()">
+              <i v-if="added" class="fas fa-2x fa-check-circle"></i>
+              <i v-else class="fas fa-2x fa-plus-circle"></i>
             </span>
           </a>
         </div>
@@ -60,31 +58,62 @@ import { mapGetters } from 'vuex';
 
 export default {
   props: ['track_data', 'isFeed', 'index', 'isProfile'],
+  data() {
+    return {
+      added: false
+    };
+  },
   computed: {
-    ...mapGetters(['currentFeedIndex', 'isPlaying']),
+    ...mapGetters(['currentFeedIndex', 'isPlaying', 'getUserId']),
     albumArtUrl() {
-      return this.track_data.album.images[0].url;
+      if (this.isFeed || this.isProfile) {
+        return this.track_data.album_art.url;
+      } else {
+        return this.track_data.album.images[0].url;
+      }
     },
     trackName() {
-      return this.track_data.name;
+      if (this.isFeed || this.isProfile) {
+        return this.track_data.track_name;
+      } else {
+        return this.track_data.name;
+      }
     },
     trackArtist() {
-      if (this.isFeed) {
-        return this.track_data.artist;
+      if (this.isFeed || this.isProfile) {
+        return this.track_data.artist_name;
       } else {
         return this.track_data.artists[0].name;
       }
     },
     trackId() {
-      return this.track_data.id;
+      if (this.isFeed || this.isProfile) {
+        return this.track_data.track_id;
+      } else {
+        return this.track_data.id;
+      }
     }
   },
   methods: {
     ...mapActions(['play', 'pause']),
-    postTrack(track_id) {
-      if (!this.isFeed) {
-        this.$parent.postTrack(track_id);
-      }
+    postTrack() {
+      let url = `${process.env.VUE_APP_VIBE_API_URL}/api/users/${this.getUserId}/post/${this.trackId}`;
+
+      fetch(url, {
+        method: 'POST',
+        headers: {
+          'content-type': 'application/json'
+        }
+      })
+        .then(response => {
+          if (response.status == 200) {
+            console.log('Posted track successfully');
+            this.added = true;
+          }
+        })
+        .catch(err => {
+          console.log(err);
+        });
     },
     playFromFeed() {
       if (this.index == this.currentFeedIndex) {

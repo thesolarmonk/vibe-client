@@ -1,12 +1,14 @@
 <template>
   <div class="search">
-    <form class="search-bar">
+    <div class="search-bar">
       <div class="field">
         <p class="control has-icons-left">
           <input
+            v-on:keyup.enter="search()"
+            v-model="query"
             type="text"
-            class="input is-medium search-bar--input"
             placeholder="Search for songs and friends"
+            class="input is-medium search-bar--input"
           />
           <span class="icon is-small is-left">
             <i class="fas fa-search"></i>
@@ -14,18 +16,45 @@
         </p>
       </div>
       <!-- <button class="search-bar--submit">Search</button> -->
-    </form>
+    </div>
     <h3 v-if="showSearch" class="results-title title is-3">
       Recently Played Tracks
+    </h3>
+    <h3 v-else class="results-title title is-3">
+      Search Results
     </h3>
     <div v-if="showSearch" class="recently-played">
       <div class="recently-played--list">
         <track-item
-          v-for="track in recently_played_tracks"
-          :key="track.track.id"
+          v-for="(track, index) in recently_played_tracks"
+          :key="index"
           :track_data="track.track"
           class="track"
         ></track-item>
+      </div>
+    </div>
+    <div v-else class="search-results">
+      <h4 class="results-subtitle subtitle is-4">
+        Tracks
+      </h4>
+      <div class="search-results--list-tracks">
+        <track-item
+          v-for="(track, index) in search_results.tracks.items"
+          :key="index"
+          :track_data="track"
+          class="track"
+        ></track-item>
+      </div>
+      <h4 class="results-subtitle subtitle is-4">
+        Users
+      </h4>
+      <div class="search-results--list-users">
+        <user-item
+          v-for="(user, index) in search_results.users"
+          :key="index"
+          :user_data="user"
+          class="user"
+        ></user-item>
       </div>
     </div>
   </div>
@@ -33,27 +62,32 @@
 
 <script>
 import TrackItem from '../components/Track.vue';
+import UserItem from '../components/User.vue';
 
 import { mapGetters } from 'vuex';
 
 export default {
   name: 'search',
   components: {
-    TrackItem
+    TrackItem,
+    UserItem
   },
   data() {
     return {
       recently_played_tracks: 0,
-      search_results: 0
+      search_results: null,
+      query: ''
     };
   },
   computed: {
-    ...mapGetters(['accessToken']),
+    ...mapGetters(['accessToken', 'getUserId']),
     showSearch() {
-      return this.search_results.length != 0;
+      return this.search_results === null;
     }
   },
   mounted() {
+    this.search_results = null;
+
     let recently_played_limit = 12;
     let url = `${process.env.VUE_APP_SPOTIFY_API_URL}/v1/me/player/recently-played?limit=${recently_played_limit}`;
 
@@ -71,28 +105,24 @@ export default {
       });
   },
   methods: {
-    postTrack(track_id) {
-      // let url = `${process.env.VUE_APP_VIBE_API_URL}/api/users/${getUserId}`;
-      let data = {
-        user_id: this.getUserId,
-        user_name: this.getUserName,
-        date_posted: new Date().getTime(),
-        track_id: track_id
-      };
+    search() {
+      if (this.query == '') {
+        this.search_results = null;
+      } else {
+        let url = `${process.env.VUE_APP_VIBE_API_URL}/api/search?q=${this.query}`;
 
-      console.log('Posting track: ' + JSON.stringify(data));
-
-      // fetch(url, {
-      //   method: "POST",
-      //   headers: {
-      //     "content-type": "application/json"
-      //   },
-      //   body: JSON.stringify(data)
-      // })
-      //   .then(response => console.log(response.json()))
-      //   .catch(err => {
-      //     console.log(err);
-      //   });
+        fetch(url, {
+          method: 'GET',
+          headers: {
+            'content-type': 'application/json'
+          }
+        })
+          .then(response => response.json())
+          .then(data => (this.search_results = data))
+          .catch(err => {
+            console.log(err);
+          });
+      }
     }
   }
 };
@@ -122,16 +152,20 @@ export default {
   margin: 1% 0% 0% 0%;
 }
 
-.recently-played {
+.recently-played,
+.search-results {
   grid-row: results-start / results-end;
   overflow-x: scroll;
 }
 
-.recently-played::-webkit-scrollbar {
+.recently-played::-webkit-scrollbar,
+.search-results::-webkit-scrollbar {
   display: none;
 }
 
-.recently-played--list {
+.recently-played--list,
+.search-results--list-tracks,
+.search-results--list-users {
   display: grid;
   overflow-x: scroll;
 
@@ -139,6 +173,10 @@ export default {
   grid-gap: 30px;
 
   padding-bottom: 5%;
+}
+
+.results-subtitle {
+  grid-column: 4fr;
 }
 
 .track {
