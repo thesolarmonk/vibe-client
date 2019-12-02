@@ -1,14 +1,13 @@
 
-function parseExtractedData(textFeed) {
-  //Find a way to convert text to json file to be useable.
 
-  //Attempt 1: JSON.parse()
-  // var obj = JSON.parse(textFeed);
-  // console.log(obj);
-  //---this gives unexpected token
 
+async function makeAPICallNewsFeed(userId) {
+  //delbierarely unused user id
+  const response = await fetch('http://vibe-web-api.herokuapp.com/api/users/12142455997/feed');
+  const myJson = await response.json();
+  console.log(JSON.stringify(myJson));
+  return myJson;
 }
-
 
 var request = new XMLHttpRequest();
 var userPlayListUrl = "http://vibe-web-api.herokuapp.com/api/users/12142455997/feed";
@@ -18,10 +17,12 @@ request.open('GET', requestUrl, true); //hardcoded for now
 request.send();
 
 request.onreadystatechange = (e) => {
-  console.log(request.JSON); //Attempt 2: request.JSON - this gives undefined
+  // console.log(request.JSON); //Attempt 2: request.JSON - this gives undefined
   parseExtractedData(request.responseText);
 
 }
+
+makeAPICallNewsFeed();
 
 
 var margin = {top: 20, right: 20, bottom: 70, left: 40},
