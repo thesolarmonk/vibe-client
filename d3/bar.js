@@ -1,5 +1,7 @@
 
+function graphInformation() {
 
+}
 function handleResponse(json) {
   console.log(json);
 
@@ -30,15 +32,20 @@ async function makeAPICallNewsFeed(userId) {
     .then(response => response.json())
     .then(handleResponse);
 
+ return handleResponse;
 
 }
 
 
 
 
-var jsonResult = makeAPICallNewsFeed();
+var jsonResult = makeAPICallNewsFeed()
+        .then(data => console.log("data", data));
 
 
+
+
+console.log("jsonResult: ", jsonResult);
 var margin = {top: 20, right: 20, bottom: 70, left: 40},
     width = 600 - margin.left - margin.right,
     height = 300 - margin.top - margin.bottom;
