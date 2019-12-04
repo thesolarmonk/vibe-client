@@ -1,18 +1,18 @@
-import Vue from 'vue';
-import Vuex from 'vuex';
+import Vue from "vue";
+import Vuex from "vuex";
 
-import { setCookie } from '../js/helper.js';
+import { setCookie } from "../js/helper.js";
 
 Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
     authenticated: false,
-    access_token: '',
+    access_token: "",
 
-    user_id: '',
-    user_name: '',
-    profile_pic_url: '',
+    user_id: "",
+    user_name: "",
+    profile_pic_url: "",
 
     player: null,
     player_id: null,
@@ -60,20 +60,20 @@ export default new Vuex.Store({
     },
     currentSentiment: state => {
       if (state.current_feed_index == null) {
-        return 'mood-0';
+        return "mood-0";
       }
 
       let sentiment_score = Math.floor(
         state.feed[state.current_feed_index].track.sentiment_score * 100
       );
       if (sentiment_score < 15) {
-        return 'mood-1';
+        return "mood-1";
       } else if (sentiment_score >= 15 && sentiment_score < 30) {
-        return 'mood-2';
+        return "mood-2";
       } else if (sentiment_score >= 30 && sentiment_score < 50) {
-        return 'mood-3';
+        return "mood-3";
       } else if (sentiment_score >= 50) {
-        return 'mood-4';
+        return "mood-4";
       }
     }
   },
@@ -92,15 +92,15 @@ export default new Vuex.Store({
         profile_pic_url: state.profile_pic_url
       };
 
-      setCookie('vibe_auth', JSON.stringify(cookie), 0.041666667);
+      setCookie("vibe_auth", JSON.stringify(cookie), 0.041666667);
     },
     logout(state) {
       state.authenticated = false;
-      state.access_token = '';
-      state.user_id = '';
-      state.user_name = '';
+      state.access_token = "";
+      state.user_id = "";
+      state.user_name = "";
       document.cookie =
-        'vibe_auth' + '=; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+        "vibe_auth" + "=; expires=Thu, 01 Jan 1970 00:00:01 GMT;";
     },
     play(state) {
       state.playing = true;
@@ -112,10 +112,10 @@ export default new Vuex.Store({
       state.feed = feed;
     },
     setCurrentFeedIndex(state, current_track_id) {
-      console.log('looking');
+      console.log("looking");
       state.feed.forEach((post, i) => {
         if (current_track_id == post.track.track_id) {
-          console.log('found');
+          console.log("found");
           post.playing = true;
           state.current_feed_index = i;
         } else {
@@ -127,33 +127,38 @@ export default new Vuex.Store({
   actions: {
     login: ({ commit, state }, payload) => {
       fetch(`${process.env.VUE_APP_SPOTIFY_API_URL}/v1/me`, {
-        method: 'GET',
+        method: "GET",
         headers: {
-          'content-type': 'application/json',
+          "content-type": "application/json",
           authorization: `Bearer ${payload.access_token}`
         }
       })
         .then(response => response.json())
         .then(data => {
+          let profile_pic_url = "";
+          if (data.images[0].url === undefined)
+            profile_pic_url =
+              "https://www.betterengineering.com/wp-content/uploads/2015/06/blue-gradient-background-flip.jpg";
+          else profile_pic_url = data.images[0].url;
           let body = JSON.stringify({
             user_id: data.id,
             user_name: data.display_name,
-            profile_pic_url: data.images[0].url,
+            profile_pic_url: profile_pic_url,
             auth_token: state.access_token
           });
           console.log(body);
           fetch(`${process.env.VUE_APP_VIBE_API_URL}/api/users`, {
-            method: 'PUT',
+            method: "PUT",
             body: body,
             headers: {
-              'content-type': 'application/json'
+              "content-type": "application/json"
             }
-          }).then(response => response.json());
+          }).then(response => console.log(response));
 
           payload.user_id = data.id;
           payload.user_name = data.display_name;
-          payload.profile_pic_url = data.images[0].url;
-          commit('login', payload);
+          payload.profile_pic_url = profile_pic_url;
+          commit("login", payload);
         })
         .catch(err => {
           console.log(err);
@@ -180,15 +185,15 @@ export default new Vuex.Store({
       // console.log('test ' + state.player_id);
 
       fetch(url, {
-        method: 'PUT',
+        method: "PUT",
         body: body,
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
           Authorization: `Bearer ${state.access_token}`
         }
       })
         .then(response => {
-          if (response.status == 204) commit('play');
+          if (response.status == 204) commit("play");
         })
         .catch(err => {
           console.log(err);
@@ -198,15 +203,15 @@ export default new Vuex.Store({
       let url = `${process.env.VUE_APP_SPOTIFY_API_URL}/v1/me/player/pause?device_id=${state.player_id}`;
 
       fetch(url, {
-        method: 'PUT',
+        method: "PUT",
         body: null,
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
           Authorization: `Bearer ${state.access_token}`
         }
       })
         .then(response => {
-          if (response.status == 204) commit('pause');
+          if (response.status == 204) commit("pause");
         })
         .catch(err => {
           console.log(err);
@@ -216,15 +221,15 @@ export default new Vuex.Store({
       let url = `${process.env.VUE_APP_SPOTIFY_API_URL}/v1/me/player/${payload.skip}?device_id=${state.player_id}`;
 
       fetch(url, {
-        method: 'POST',
+        method: "POST",
         body: null,
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
           Authorization: `Bearer ${state.access_token}`
         }
       })
         .then(response => {
-          if (response.status == 204) commit('play');
+          if (response.status == 204) commit("play");
         })
         .catch(err => {
           console.log(err);
