@@ -9,6 +9,7 @@
             type="text"
             placeholder="Search for songs and friends"
             class="input is-medium search-bar--input"
+            id="search-input"
           />
           <span class="icon is-small is-left">
             <i class="fas fa-search"></i>
@@ -17,12 +18,8 @@
       </div>
       <!-- <button class="search-bar--submit">Search</button> -->
     </div>
-    <h3 v-if="showSearch" class="results-title title is-3">
-      Recently Played Tracks
-    </h3>
-    <h3 v-else class="results-title title is-3">
-      Search Results
-    </h3>
+    <h3 v-if="showSearch" class="results-title title is-3">Recently Played Tracks</h3>
+    <h3 v-else class="results-title title is-3">Search Results</h3>
     <div v-if="showSearch" class="recently-played">
       <div class="recently-played--list">
         <track-item
@@ -34,9 +31,7 @@
       </div>
     </div>
     <div v-else class="search-results">
-      <h4 class="results-subtitle subtitle is-4">
-        Tracks
-      </h4>
+      <h4 class="results-subtitle subtitle is-4">Tracks</h4>
       <div class="search-results--list-tracks">
         <track-item
           v-for="(track, index) in search_results.tracks.items"
@@ -45,9 +40,7 @@
           class="track"
         ></track-item>
       </div>
-      <h4 class="results-subtitle subtitle is-4">
-        Users
-      </h4>
+      <h4 class="results-subtitle subtitle is-4">Users</h4>
       <div class="search-results--list-users">
         <user-item
           v-for="(user, index) in search_results.users"
@@ -61,13 +54,13 @@
 </template>
 
 <script>
-import TrackItem from '../components/Track.vue';
-import UserItem from '../components/User.vue';
+import TrackItem from "../components/Track.vue";
+import UserItem from "../components/User.vue";
 
-import { mapGetters } from 'vuex';
+import { mapGetters } from "vuex";
 
 export default {
-  name: 'search',
+  name: "search",
   components: {
     TrackItem,
     UserItem
@@ -76,11 +69,11 @@ export default {
     return {
       recently_played_tracks: 0,
       search_results: null,
-      query: ''
+      query: ""
     };
   },
   computed: {
-    ...mapGetters(['accessToken', 'getUserId']),
+    ...mapGetters(["accessToken", "getUserId"]),
     showSearch() {
       return this.search_results === null;
     }
@@ -92,9 +85,9 @@ export default {
     let url = `${process.env.VUE_APP_SPOTIFY_API_URL}/v1/me/player/recently-played?limit=${recently_played_limit}`;
 
     fetch(url, {
-      method: 'GET',
+      method: "GET",
       headers: {
-        'content-type': 'application/json',
+        "content-type": "application/json",
         authorization: `Bearer ${this.accessToken}`
       }
     })
@@ -106,15 +99,15 @@ export default {
   },
   methods: {
     search() {
-      if (this.query == '') {
+      if (this.query == "") {
         this.search_results = null;
       } else {
         let url = `${process.env.VUE_APP_VIBE_API_URL}/api/search?q=${this.query}`;
 
         fetch(url, {
-          method: 'GET',
+          method: "GET",
           headers: {
-            'content-type': 'application/json'
+            "content-type": "application/json"
           }
         })
           .then(response => response.json())

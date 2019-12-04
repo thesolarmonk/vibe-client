@@ -28,11 +28,16 @@ export default {
     var that = this;
     window.addEventListener("keydown", function(event) {
       if (event.keyCode == 32) {
-        event.preventDefault();
-        if (that.isPlaying) {
-          that.pause();
-        } else {
-          that.play({ feed_index: null });
+        var x = document.getElementById("search-input");
+        var isFocused = document.activeElement === x;
+
+        if (!isFocused) {
+          event.preventDefault();
+          if (that.isPlaying) {
+            that.pause();
+          } else {
+            that.play({ feed_index: null });
+          }
         }
       }
     });
