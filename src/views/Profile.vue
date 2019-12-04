@@ -217,10 +217,10 @@ export default {
   overflow-x: scroll;
 }
 
-.profile--graphs-table {
+/* .profile--graphs-table {
   width: 90% !important;
-  margin: 0px auto;
-}
+  padding: 0px 5% 0px 5%;
+} */
 
 .carousel,
 .carousel-list,
