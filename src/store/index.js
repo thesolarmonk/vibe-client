@@ -136,7 +136,7 @@ export default new Vuex.Store({
         .then(response => response.json())
         .then(data => {
           let profile_pic_url = "";
-          if (data.images[0].url === undefined)
+          if (data.images === undefined)
             profile_pic_url =
               "https://www.betterengineering.com/wp-content/uploads/2015/06/blue-gradient-background-flip.jpg";
           else profile_pic_url = data.images[0].url;
